@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import AuthService from "../src/Services/auth.service";
 import User from "./components/User/User";
 import Profile from "./components/Profile/Profile";
+import Products from "./components/Products/Products";
 
 function App() {
   const [token, setToken] = useState();
@@ -24,6 +25,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="user" element={<User />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="products" element={<Products />} />
           </Route>
         </Routes>
       </BrowserRouter>
