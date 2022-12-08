@@ -5,6 +5,7 @@
     .userTable {
       background-color: transparent;
       padding: 16px;
+      margin: 0%;
       //border: 6px;
     }
     // .userAdd {
@@ -45,4 +46,7 @@
     //   }
     // }
   }
+}
+.code-box-demo .ant-switch {
+  margin-bottom: 8px;
 }

@@ -1,15 +1,33 @@
 import React, { FC, useState, useEffect } from "react";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, DownOutlined, MoreOutlined } from "@ant-design/icons";
 import "./user.scss";
 import Sidebar from "../Sidebar/Sidebar";
 import Navbar from "../Navbar/Navbar";
 import AdminTable from "../Table/Table";
+import SearchBar from "../SearchBar/Searchbar";
 import AuthService from "../../Services/auth.service";
-import { Button, Drawer, Space } from "@mui/material";
+import { Button, Drawer, Switch } from "@mui/material";
 import MaterialTable from "material-table";
-import { Table, Form, Input } from "antd";
+import { Table, Menu, Form, Input, Dropdown, Space } from "antd";
 import Modal from "react-modal";
+import { render } from "@testing-library/react";
 
+//import { Switch } from "antd";
+const menu = (
+  <Menu>
+    <Menu.Item>1st menu item</Menu.Item>
+  </Menu>
+);
+const items = [
+  {
+    key: "1",
+    label: "Action 1",
+  },
+  {
+    key: "2",
+    label: "Action 2",
+  },
+];
 const customStyles = {
   content: {
     top: "50%",
@@ -27,6 +45,8 @@ const User = () => {
   const [userName, setUserName] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const [isUserActive, setIsUserActive] = useState(true);
 
   const [open, setOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,6 +56,33 @@ const User = () => {
     const response = await AuthService.getUsers();
     setUsers(response);
   };
+
+  const filterUsersSync = (searchValue) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        if (searchValue === "") {
+          return users;
+        }
+        return users.filter((filteredUsers) =>
+          filteredUsers.fullName
+            .toLowerCase()
+            .includes(searchValue.toLowerCase())
+        );
+      }, 2000);
+    });
+  };
+
+  const filterUsers = (searchValue) => {
+    if (searchValue === "") {
+      fetchUsers();
+      return users;
+    } else {
+      return users.filter((filteredUsers) =>
+        filteredUsers.fullName.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+  };
+
   const addUser = async (e) => {
     const response = await AuthService.addUsers(
       fullName,
@@ -46,10 +93,24 @@ const User = () => {
     if (response) {
       window.alert("User Successfully Created");
     }
+    fetchUsers();
     closeModal();
   };
   console.log("users", users);
 
+  const activateAction = async (record) => {
+    //setIsUserActive(!isUserActive);
+    console.log("Button Checked", record.userId);
+    const response = await AuthService.activateDeactivateUser(record.userId);
+    if (response) {
+      //window.alert("User Update Successfully");
+      console.log("Use Update Successfully");
+      fetchUsers();
+    }
+  };
+  const resetPassword = async (record) => {
+    console.log("Password Reset");
+  };
   const openModal = () => {
     setIsOpen(true);
   };
@@ -61,6 +122,11 @@ const User = () => {
 
   const closeModal = () => {
     setIsOpen(false);
+  };
+
+  const switchButton = (userStatus) => {
+    if (userStatus === "deactivated") return "Activate";
+    else return "Deactivate";
   };
 
   const onFinish = (values) => {
@@ -78,19 +144,79 @@ const User = () => {
     { title: "Phone Number", dataIndex: "phone" },
     { title: "Role", dataIndex: "role" },
     { title: "Status", dataIndex: "userStatus" },
+    {
+      title: "Action",
+
+      render: (record) => {
+        return (
+          <>
+            <div className="w-30 m-0">
+              {/* <div>
+                <Space size="large">
+                  <Dropdown>
+                    <div>
+                      <MoreOutlined />
+                    </div>
+                  </Dropdown>
+                </Space>
+              </div> */}
+
+              {/* <Switch
+                defaultChecked
+                checkedChildren="Active"
+                uncheckedChildren="Deactivate"
+                onChange={toggleAction()}
+                label="Activate"
+              ></Switch> */}
+              <button
+                className="h-8 w-28 bg-transparent hover:bg-blue-500 text-blue hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                onClick={() => {
+                  activateAction(record);
+                }}
+                style={{
+                  textAlign: "center",
+
+                  borderColor:
+                    record.userStatus === "deactivated" ? "green" : "red",
+                  color: record.userStatus === "deactivated" ? "green" : "red",
+                }}
+              >
+                <div>{switchButton(record.userStatus)}</div>
+              </button>
+
+              <button
+                className="h-8 ml-2 w-40 bg-transparent hover:bg-blue-500 text-blue hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                onClick={() => {
+                  resetPassword(record);
+                }}
+              >
+                <div>Reset Password</div>
+              </button>
+            </div>
+          </>
+        );
+      },
+    },
   ];
 
   useEffect(() => {
     fetchUsers();
   }, []);
-
+  useEffect(() => {
+    console.log("Search Value Changed");
+    // filterUsersSync(searchValue).then((fusers) => {
+    //   setUsers(fusers);
+    // });
+    const filteredUsers = filterUsers(searchValue);
+    setUsers(filteredUsers);
+  }, [searchValue]);
   const formatData = users.map(
     ({ userId, fullName, userName, phone, role, userStatus }) => {
       return { userId, fullName, userName, phone, role, userStatus };
     }
   );
 
-  console.log("formated Data", formatData);
+  //console.log("formated Data", formatData);
   return (
     <>
       <div className="user">
@@ -98,8 +224,11 @@ const User = () => {
 
         <div className="userContainer pr-2">
           <Navbar />
-          User Management
-          <div className="mb-10 pr-2">
+          <h1 style={{}}>User Management</h1>
+          <div className="mb-10 p-4 ">
+            <SearchBar
+              callback={(searchValue) => setSearchValue(searchValue)}
+            />
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={openModal}
@@ -110,28 +239,7 @@ const User = () => {
             </button>
           </div>
           <div className="userTable">
-            {/* <tbody  >
- <tr className="tableheader">
-    <th>ID</th>
-    <th>Full Name</th>
-    <th>User Name</th>
-    <th>Phone Number</th>
-    <th>Role</th>
-    <th>Action</th>
- </tr>
-{users.map((item, index) => (
-<tr key={index}>
-<td>{item.userId}</td>
-<td>{item.fullName}</td>
-<td>{item.userName}</td>
-<td>{item.phone}</td>
-<td>{item.role}</td>
-<td>Active</td>
-</tr>
-))}
-</tbody> */}
-
-            <AdminTable data={formatData} columns={columns} />
+            <AdminTable data={users} columns={columns} />
           </div>
           <div>
             <Modal

@@ -9,14 +9,14 @@ import AuthService from "../src/Services/auth.service";
 import User from "./components/User/User";
 import Profile from "./components/Profile/Profile";
 import Products from "./components/Products/Products";
-
+import Orders from "./components/Orders/Orders";
 function App() {
   const [token, setToken] = useState();
   // const { token, setToken } = useToken();
 
-  if (!token) {
-    return <Login setToken={setToken} />;
-  }
+  // if (!token) {
+  //   return <Login setToken={setToken} />;
+  // }
   return (
     <div className="wrapper">
       <BrowserRouter>
@@ -26,6 +26,7 @@ function App() {
             <Route path="user" element={<User />} />
             <Route path="profile" element={<Profile />} />
             <Route path="products" element={<Products />} />
+            <Route path="orders" element={<Orders />} />
           </Route>
         </Routes>
       </BrowserRouter>
