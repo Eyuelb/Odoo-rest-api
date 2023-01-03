@@ -1,9 +1,11 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8084/auth";
-const API_URL_USER = "http://localhost:8084/users";
-const API_URL_PRODUCT = "http://localhost:8083/product";
-const API_URL_ORDER = "http://localhost:8083/order";
+//const API_URL = "http://localhost:8084/auth";
+const API_URL = process.env.REACT_APP_API_USER + "auth";
+const API_URL_USER = process.env.REACT_APP_API_USER + "users";
+const API_URL_PRODUCT = process.env.REACT_APP_PRODUCT + "product";
+const API_URL_ORDER = process.env.REACT_APP_PRODUCT + "order";
+const API_ORL_PRESCRIPTION = process.env.REACT_APP_PRESCRIPTION + "requestType";
 
 const signup = (userName, loginCode) => {
   return axios
@@ -75,7 +77,7 @@ const getUserById = (usrId) => {
 
 const getProducts = () => {
   return axios
-    .get(API_URL_PRODUCT + "/ListAllforOdoo")
+    .get(API_URL_PRODUCT + "/productListAll")
     .then((response) => {
       if (response) {
         console.log("======Products======");
@@ -84,7 +86,22 @@ const getProducts = () => {
       }
     })
     .catch((err) => {
-      console.log("can't fetch products");
+      console.log("can't fetch products from Odoo");
+    });
+};
+
+const getProductsFromDB = () => {
+  return axios
+    .get(API_URL_PRODUCT + "/productListAll")
+    .then((response) => {
+      if (response) {
+        console.log("=======Products From DB========");
+        console.log(response.data);
+        return response.data;
+      }
+    })
+    .catch(() => {
+      console.log("can't fetch products from Database");
     });
 };
 
@@ -102,6 +119,20 @@ const getOrders = () => {
       console.log("can't fetch orders");
     });
 };
+
+const getPrescriptions = () => {
+  return axios
+    .get(API_ORL_PRESCRIPTION + "/listAll")
+    .then((response) => {
+      if (response) {
+        return response.data;
+      }
+    })
+    .catch(() => {
+      console.log("can't fetch orders");
+    });
+};
+
 const addUsers = (fullName, userName, phone, password) => {
   return axios
     .post(API_URL + "/createUser", {
@@ -116,6 +147,22 @@ const addUsers = (fullName, userName, phone, password) => {
     })
     .catch((err) => {
       console.log("can't save a user");
+    });
+};
+
+const createOrder = (orderedProduct) => {
+  return axios
+    .post(API_URL_ORDER + "/createOrder", {
+      userId: 2,
+      location: 58,
+      orderedProduct: orderedProduct,
+    })
+    .then((response) => {
+      console.log("Order Successfully Created ");
+      return response.data.msg;
+    })
+    .catch(() => {
+      console.log("Can't create Order Successfully");
     });
 };
 
@@ -147,6 +194,49 @@ const activateDeactivateUser = (userId) => {
     });
 };
 
+const approvePrescription = (prescriptionId) => {
+  return axios
+    .put(API_ORL_PRESCRIPTION + "/Approve?id=" + prescriptionId)
+    .then((response) => {
+      return response;
+    })
+    .catch(() => {
+      console.log("Can't Approve Prescription");
+    });
+};
+const declinePrescription = (prescriptionId) => {
+  return axios
+    .put(API_ORL_PRESCRIPTION + "/decline?id=" + prescriptionId)
+    .then((response) => {
+      return response;
+    })
+    .catch(() => {
+      console.log("Can't Approve Prescription");
+    });
+};
+
+const getPrescriptionById = (prescriptionId) => {
+  return axios
+    .get(API_ORL_PRESCRIPTION + "/findById?id=" + prescriptionId)
+    .then((response) => {
+      return response.data;
+    })
+    .catch(() => {
+      console.log("can't get prescription by Id");
+    });
+};
+
+const orderProducts = (userId, location, promoCodeId, orderedProduct) => {
+  return axios
+    .get(API_URL_ORDER + "/createOrder")
+    .then((response) => {
+      return response.data;
+    })
+    .catch(() => {
+      console.log("can't create Order");
+    });
+};
+
 const authService = {
   signup,
   login,
@@ -158,6 +248,12 @@ const authService = {
   getProducts,
   getOrders,
   getUserById,
+  getProductsFromDB,
+  createOrder,
+  getPrescriptions,
+  getPrescriptionById,
+  approvePrescription,
+  declinePrescription,
 };
 
 export default authService;

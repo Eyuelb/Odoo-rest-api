@@ -2,14 +2,16 @@
   flex: 1;
   border-right: 0.5px solid rgb(230, 227, 227);
   min-height: 100vh;
-  background-color: white;
+
+  border-radius: 8px;
+  background-color: rgb(59 130 246);
 
   .top {
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-
+    background-color: white;
     .logo {
       font-size: 20px;
       font-weight: bold;
@@ -24,6 +26,8 @@
 
   .center {
     padding-left: 10px;
+    background-color: rgb(59 130 246);
+    border-radius: 8px;
 
     ul {
       list-style: none;
@@ -33,7 +37,7 @@
       .title {
         font-size: 15px;
         font-weight: bold;
-        color: #999;
+        color: white;
         margin-top: 15px;
         margin-bottom: 5px;
       }
@@ -50,13 +54,13 @@
 
         .icon {
           font-size: 18px;
-          color: #7451f8;
+          color: white;
         }
 
         span {
           font-size: 13px;
           font-weight: 600;
-          color: #888;
+          color: white;
           margin-left: 10px;
         }
       }

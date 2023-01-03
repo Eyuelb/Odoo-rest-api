@@ -22,14 +22,14 @@ const Products = () => {
   const columns = [
     { title: "Product ID", dataIndex: "id" },
     { title: "Product Name", dataIndex: "name" },
-    { title: "Product Category", dataIndex: "categName" },
-    { title: "Internal Reference", dataIndex: "default_code" },
-    { title: "Unit Price", dataIndex: "list_price" },
-    { title: "Quantity", dataIndex: "qty_available" },
+    { title: "Product Category", dataIndex: "categId" },
+    { title: "Internal Reference", dataIndex: "defaultCode" },
+    { title: "Unit Price", dataIndex: "listPrice" },
+    { title: "Quantity", dataIndex: "qtyAvailable" },
   ];
 
   const fetchProducts = async (e) => {
-    const response = await authService.getProducts();
+    const response = await authService.getProductsFromDB();
     setProducts(response);
   };
   const searchProducts = (searchValue) => {
@@ -67,28 +67,28 @@ const Products = () => {
     setProducts(filteredEvents);
   };
   console.log("Products", products);
-  const formatData = products.map(
-    ({ id, name, default_code, categ_id, list_price, qty_available }) => {
-      return { id, name, default_code, categ_id, list_price, qty_available };
-    }
-  );
+  // const formatData = products.map(
+  //   ({ id, name, default_code, categ_id, list_price, qty_available }) => {
+  //     return { id, name, default_code, categ_id, list_price, qty_available };
+  //   }
+  // );
 
-  const formatProductData = products.map((el) => {
-    const categId = el.categ_id[0];
-    const categName = el.categ_id[1];
-    return {
-      categId,
-      categName,
-      id: el.id,
-      name: el.name,
-      default_code: el.default_code,
-      list_price: el.list_price + " Br",
-      qty_available: el.qty_available,
-    };
-  });
+  // const formatProductData = products.map((el) => {
+  //   const categId = el.categ_id[0];
+  //   const categName = el.categ_id[1];
+  //   return {
+  //     categId,
+  //     categName,
+  //     id: el.id,
+  //     name: el.name,
+  //     default_code: el.default_code,
+  //     list_price: el.list_price + " Br",
+  //     qty_available: el.qty_available,
+  //   };
+  // });
 
-  console.log("formated Data", formatData);
-  console.log("Mapped Data", formatProductData);
+  //console.log("formated Data", formatData);
+  //console.log("Mapped Data", formatProductData);
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -115,22 +115,30 @@ const Products = () => {
       <Sidebar></Sidebar>
       <div className="productsContainer">
         <Navbar />
-        <p>Products</p>
+        <h6 class="font-medium text-center mt-4 leading-tight text-base  text-blue-600">
+          Products
+        </h6>
 
-        <div className="mb-10 p-4 flex">
-          <SearchBar callback={(searchValue) => setSearchValue(searchValue)} />
-          <Dropdown className="filter ml-10" overlay={menu}>
-            {/* <a className="ant-dropdown-link" href="#">
+        <div className="flex">
+          <div className="m-auto ml-4">
+            <SearchBar
+              callback={(searchValue) => setSearchValue(searchValue)}
+            />
+          </div>
+          <div>
+            <Dropdown className="filter mr-4 w-28 rounded-lg" overlay={menu}>
+              {/* <a className="ant-dropdown-link" href="#">
               Filter By <Icon type="down" />
             </a> */}
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Filter By <Icon type="down" href="#" />
-            </button>
-          </Dropdown>
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Filter By <Icon type="down" href="#" />
+              </button>
+            </Dropdown>
+          </div>
         </div>
         <div></div>
         <div className="productTable">
-          <AdminTable data={formatProductData} columns={columns} />
+          <AdminTable data={products} columns={columns} />
         </div>
       </div>
     </div>

@@ -1,5 +1,11 @@
 import React, { FC, useState, useEffect } from "react";
-import { PlusOutlined, DownOutlined, MoreOutlined } from "@ant-design/icons";
+import {
+  PlusOutlined,
+  DownOutlined,
+  MoreOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+
 import "./user.scss";
 import Sidebar from "../Sidebar/Sidebar";
 import Navbar from "../Navbar/Navbar";
@@ -8,7 +14,7 @@ import SearchBar from "../SearchBar/Searchbar";
 import AuthService from "../../Services/auth.service";
 import { Button, Drawer, Switch } from "@mui/material";
 import MaterialTable from "material-table";
-import { Table, Menu, Form, Input, Dropdown, Space } from "antd";
+import { Table, Menu, Form, Input, Dropdown, Space, Select } from "antd";
 import Modal from "react-modal";
 import { render } from "@testing-library/react";
 
@@ -43,6 +49,8 @@ const User = () => {
   const [users, setUsers] = useState([]);
   const [fullName, setFullName] = useState("");
   const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [userRole, setUserRole] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [searchValue, setSearchValue] = useState("");
@@ -224,20 +232,28 @@ const User = () => {
 
         <div className="userContainer pr-2">
           <Navbar />
-          <h1 style={{}}>User Management</h1>
-          <div className="mb-10 p-4 ">
-            <SearchBar
-              callback={(searchValue) => setSearchValue(searchValue)}
-            />
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={openModal}
-              icon={<PlusOutlined />}
-              style={{ float: "right", margin: "6px" }}
-            >
-              Add User
-            </button>
+          {/* <h1 style={{}}>User Management</h1> */}
+          <h6 class="font-medium text-center mt-4 leading-tight text-base  text-blue-600">
+            User Management
+          </h6>
+          <div className="flex mr-3">
+            <div className="m-auto ml-4">
+              <SearchBar
+                callback={(searchValue) => setSearchValue(searchValue)}
+              />
+            </div>
+            <div>
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-2 py-2 ml-4 w-28 rounded-lg"
+                onClick={openModal}
+                icon={<PlusOutlined />}
+                style={{ margin: "6px" }}
+              >
+                Add User
+              </button>
+            </div>
           </div>
+
           <div className="userTable">
             <AdminTable data={users} columns={columns} />
           </div>
@@ -297,6 +313,23 @@ const User = () => {
                 <div className="flex">
                   <Form.Item
                     className="p-2"
+                    label="Email"
+                    name="email"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your Email!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      className="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </Form.Item>
+
+                  <Form.Item
+                    className="p-2"
                     label="Phone "
                     name="phone"
                     rules={[
@@ -306,6 +339,51 @@ const User = () => {
                     <Input
                       className="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                       onChange={(e) => setPhone(e.target.value)}
+                    />
+                  </Form.Item>
+                </div>
+                <div className="flex">
+                  <Form.Item
+                    className="p-2"
+                    label="User Role"
+                    name="role"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input user role!",
+                      },
+                    ]}
+                  >
+                    <Select
+                      style={{
+                        width: 200,
+                      }}
+                      options={[
+                        {
+                          value: "1",
+                          label: "Identified",
+                        },
+                        {
+                          value: "2",
+                          label: "Closed",
+                        },
+                        {
+                          value: "3",
+                          label: "Communicated",
+                        },
+                        {
+                          value: "4",
+                          label: "Identified",
+                        },
+                        {
+                          value: "5",
+                          label: "Resolved",
+                        },
+                        {
+                          value: "6",
+                          label: "Cancelled",
+                        },
+                      ]}
                     />
                   </Form.Item>
                   <Form.Item
