@@ -61,26 +61,31 @@ const Orders = () => {
       orderedBy,
       orderedQuantity: el.quantity,
       location: el.location,
-      orderStatus: el.userStatus,
+      orderStatus: el.orderStatus,
       totalPrice: el.totalPrice,
     };
   });
 
   console.log("Mapped Data", mapOrders);
   useEffect(() => {
-    fetchOrders();
+    //fetchOrders();
   }, []);
   return (
     <div className="orders">
       <Sidebar></Sidebar>
       <div className="ordersContainer">
         <Navbar />
-        <p>Orders</p>
-        <div className="mb-10 p-4">
-          <SearchBar />
+        <h6 class="font-medium text-center mt-4 leading-tight text-base  text-blue-600">
+          Orders
+        </h6>
+        <div className="flex">
+          <div className="m-auto ml-4">
+            <SearchBar />
+          </div>
         </div>
+
         <div className="orderTable">
-          <AdminTable data={mapOrders} columns={columns} />
+          <AdminTable columns={columns} />
         </div>
       </div>
     </div>

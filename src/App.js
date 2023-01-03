@@ -10,6 +10,8 @@ import User from "./components/User/User";
 import Profile from "./components/Profile/Profile";
 import Products from "./components/Products/Products";
 import Orders from "./components/Orders/Orders";
+import Prescriptions from "./components/Prescriptions/Prescriptions";
+import PrescriptionDetail from "./components/Prescriptions/PrescriptionDetail";
 function App() {
   const [token, setToken] = useState();
   // const { token, setToken } = useToken();
@@ -27,6 +29,8 @@ function App() {
             <Route path="profile" element={<Profile />} />
             <Route path="products" element={<Products />} />
             <Route path="orders" element={<Orders />} />
+            <Route path="prescriptions" element={<Prescriptions />} />
+            <Route path="prescriptionDetail" element={<PrescriptionDetail />} />
           </Route>
         </Routes>
       </BrowserRouter>

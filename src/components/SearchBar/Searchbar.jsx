@@ -11,7 +11,13 @@ const SearchBar = ({ callback }) => {
     callback(searchedText);
   };
   return (
-    <form className="searchBar flex-none" onSubmit={handleSubmit}>
+    <form
+      className="searchBar "
+      style={{
+        borderRadius: 6,
+      }}
+      onSubmit={handleSubmit}
+    >
       <input
         type="text"
         className="searchBarInput"
