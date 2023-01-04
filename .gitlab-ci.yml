@@ -1,0 +1,1 @@
+include: "http://gitlab.kifiya.et/api/v4/projects/7/repository/files/Chemed%2fFrontend%2fadmin-portal-ui_development_ci.yml/raw?ref=master&private_token=${CI_CONFIG_ACCESS_TOKEN}&URL_END=file.yml"
