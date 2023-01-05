@@ -2,10 +2,11 @@ import axios from "axios";
 
 //const API_URL = "http://localhost:8084/auth";
 const API_URL = process.env.REACT_APP_API_USER + "auth";
-const API_URL_USER = process.env.REACT_APP_API_USER + "users";
-const API_URL_PRODUCT = process.env.REACT_APP_PRODUCT + "product";
-const API_URL_ORDER = process.env.REACT_APP_PRODUCT + "order";
-const API_ORL_PRESCRIPTION = process.env.REACT_APP_PRESCRIPTION + "requestType";
+const API_URL_USER = process.env.REACT_APP_API_USER + "/users";
+const API_URL_PRODUCT = process.env.REACT_APP_PRODUCT + "/product";
+const API_URL_ORDER = process.env.REACT_APP_PRODUCT + "/order";
+const API_ORL_PRESCRIPTION =
+  process.env.REACT_APP_PRESCRIPTION + "/requestType";
 
 const signup = (userName, loginCode) => {
   return axios
