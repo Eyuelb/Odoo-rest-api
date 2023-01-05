@@ -5,6 +5,18 @@
   }
   .ant-pagination {
     float: right;
+    display: flex;
+
+    .ant-pagination-item {
+      margin: 12px;
+      margin-top: 14px;
+    }
+    .ant-pagination-next {
+      margin: 10px;
+    }
+    .ant-pagination-prev {
+      margin: 10px;
+    }
   }
 
   .ant-table-content {
