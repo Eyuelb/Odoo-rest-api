@@ -5,6 +5,7 @@ import AdminTable from "../Table/Table";
 import "./orders.scss";
 import authService from "../../Services/auth.service";
 import React, { useState, useEffect } from "react";
+import { Table } from "antd";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
 
@@ -15,6 +16,7 @@ const Orders = () => {
   const columns = [
     { title: "Order Id", dataIndex: "id" },
     { title: "Ordered By", dataIndex: "orderedBy" },
+
     { title: "Ordered Products", dataIndex: "productName" },
     { title: "Ordered Quantity", dataIndex: "orderedQuantity" },
     { title: "Location", dataIndex: "location" },
@@ -48,27 +50,27 @@ const Orders = () => {
   const fetchOrders = async (e) => {
     const response = await authService.getOrders();
     setOrders(response);
-    //console.log("=========Orders=========");
-    //console.log(response);
+    console.log("=========Orders=========");
+    console.log(response);
   };
 
-  const mapOrders = orders.map((el) => {
-    const productName = el.productId.name;
-    const orderedBy = el.userId.fullName;
-    return {
-      id: el.id,
-      productName,
-      orderedBy,
-      orderedQuantity: el.quantity,
-      location: el.location,
-      orderStatus: el.orderStatus,
-      totalPrice: el.totalPrice,
-    };
-  });
+  // const mapOrders = orders.map((el) => {
+  //   const productName = el.productId.name;
+  //   const orderedBy = el.userId.fullName;
+  //   return {
+  //     id: el.id,
+  //     productName,
+  //     orderedBy,
+  //     orderedQuantity: el.quantity,
+  //     location: el.location,
+  //     orderStatus: el.orderStatus,
+  //     totalPrice: el.totalPrice,
+  //   };
+  // });
 
-  console.log("Mapped Data", mapOrders);
+  //console.log("Mapped Data", mapOrders);
   useEffect(() => {
-    //fetchOrders();
+    fetchOrders();
   }, []);
   return (
     <div className="orders">
