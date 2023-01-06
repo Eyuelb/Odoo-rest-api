@@ -50,8 +50,8 @@ const Orders = () => {
     },
   ];
 
-  const getUser = async (e) => {
-    const response = await authService.getUserById("4");
+  const getUser = async (userId) => {
+    const response = await authService.getUserById(userId);
     setCurrentUser(response);
     console.log("CurretnUser", response);
   };
@@ -80,9 +80,10 @@ const Orders = () => {
   };
   const mapOrders = orders.map((el) => {
     const products = mapOrderedProducts(el?.orderedProduct?.orderedItems);
+    const user = getUser(el?.userId);
     return {
       id: el?.orderUniqueId,
-      orderedBy: currentUser.userName,
+      orderedBy: user.userName,
       location: el?.location,
       orderStatus: el?.orderStatus,
       orderedProducts: products?.length,
