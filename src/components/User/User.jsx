@@ -92,6 +92,7 @@ const User = () => {
   };
 
   const addUser = async (e) => {
+    console.log("User Add=======");
     const response = await AuthService.addUsers(
       fullName,
       userName,
@@ -347,41 +348,34 @@ const User = () => {
                     className="p-2"
                     label="User Role"
                     name="role"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input user role!",
-                      },
-                    ]}
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: "Please input user role!",
+                    //   },
+                    // ]}
                   >
                     <Select
                       style={{
                         width: 200,
                       }}
+                      defaultValue="admin"
                       options={[
                         {
                           value: "1",
-                          label: "Identified",
+                          label: "admin",
                         },
                         {
                           value: "2",
-                          label: "Closed",
+                          label: "pharmacist",
                         },
                         {
                           value: "3",
-                          label: "Communicated",
+                          label: "user",
                         },
                         {
                           value: "4",
-                          label: "Identified",
-                        },
-                        {
-                          value: "5",
-                          label: "Resolved",
-                        },
-                        {
-                          value: "6",
-                          label: "Cancelled",
+                          label: "callcenter",
                         },
                       ]}
                     />

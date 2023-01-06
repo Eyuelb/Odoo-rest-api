@@ -23,7 +23,7 @@ const Profile = () => {
   };
 
   const getUser = async (e) => {
-    const response = await authService.getUserById("2");
+    const response = await authService.getUserById("4");
     setCurrentUser(response);
     console.log("CurretnUser", currentUser);
   };

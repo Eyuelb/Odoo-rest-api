@@ -11,8 +11,14 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { Link } from "react-router-dom";
+import authService from "../../Services/auth.service";
 
 const Sidebar = () => {
+  const LogOut = async (e) => {
+    const response = await authService.logout();
+    window.location.reload();
+  };
+
   return (
     <div className="sidebar">
       <div className="top">
@@ -86,8 +92,8 @@ const Sidebar = () => {
               </li>
             </Link>
           </li>
-          <li>
-            <LogoutIcon className="icon" />
+          <li onClick={LogOut}>
+            <LogoutIcon className="icon" onClick={LogOut} />
             <span>Logout</span>
           </li>
         </ul>

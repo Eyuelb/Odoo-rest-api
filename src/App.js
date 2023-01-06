@@ -13,12 +13,16 @@ import Orders from "./components/Orders/Orders";
 import Prescriptions from "./components/Prescriptions/Prescriptions";
 import PrescriptionDetail from "./components/Prescriptions/PrescriptionDetail";
 function App() {
-  const [token, setToken] = useState();
+  const [token, setToken] = useState([]);
   // const { token, setToken } = useToken();
 
-  // if (!token) {
-  //   return <Login setToken={setToken} />;
-  // }
+  // console.log("TOkennnn===", localStorage.getItem("LogInUser"));
+  // setToken(localStorage.getItem("LogInUser"));
+  // console.log("TOkennnn++++", token);
+
+  if (!localStorage.getItem("LogInUser")) {
+    return <Login setToken={setToken} />;
+  }
   return (
     <div className="wrapper">
       <BrowserRouter>
