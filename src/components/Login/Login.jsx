@@ -10,7 +10,7 @@ function Login({ setToken }) {
 
   //const navigate = useNavigate();
 
-  const handleLogin = async e => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     console.log("Login");
     console.log("email:", userName, loginCode);

@@ -54,6 +54,7 @@ const Orders = () => {
     const response = await authService.getUserById(userId);
     setCurrentUser(response);
     console.log("CurretnUser", response);
+    return response;
   };
 
   const fetchOrders = async (e) => {
@@ -83,7 +84,7 @@ const Orders = () => {
     const user = getUser(el?.userId);
     return {
       id: el?.orderUniqueId,
-      orderedBy: user.userName,
+      orderedBy: currentUser?.fullName,
       location: el?.location,
       orderStatus: el?.orderStatus,
       orderedProducts: products?.length,
@@ -93,7 +94,7 @@ const Orders = () => {
   console.log("Mapped Data", mapOrders);
   useEffect(() => {
     fetchOrders();
-    getUser();
+    //getUser();
   }, []);
   return (
     <div className="orders">
