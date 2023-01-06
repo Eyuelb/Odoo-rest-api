@@ -6,8 +6,10 @@ import "./orders.scss";
 import authService from "../../Services/auth.service";
 import React, { useState, useEffect } from "react";
 import { Table } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
 
   const switchButton = (orderStatus) => {
     if (orderStatus === "active" || "pending") return "Deactivate";
@@ -17,8 +19,8 @@ const Orders = () => {
     { title: "Order Id", dataIndex: "id" },
     { title: "Ordered By", dataIndex: "orderedBy" },
 
-    { title: "Ordered Products", dataIndex: "productName" },
-    { title: "Ordered Quantity", dataIndex: "orderedQuantity" },
+    { title: "Ordered Products", dataIndex: "orderedProducts" },
+
     { title: "Location", dataIndex: "location" },
     { title: "Order Status", dataIndex: "orderStatus" },
     { title: "Total Price", dataIndex: "totalPrice" },
@@ -29,7 +31,7 @@ const Orders = () => {
           <>
             <div>
               <button
-                className="h-8 w-28 bg-transparent hover:bg-blue-500 text-blue hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                className="h-8 mr-2 w-28 bg-transparent hover:bg-blue-500 text-blue hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                 style={{
                   textAlign: "center",
 
@@ -40,6 +42,7 @@ const Orders = () => {
               >
                 <div>{switchButton(record.orderStatus)}</div>
               </button>
+              <EyeOutlined />
             </div>
           </>
         );
@@ -47,30 +50,49 @@ const Orders = () => {
     },
   ];
 
+  const getUser = async (e) => {
+    const response = await authService.getUserById("4");
+    setCurrentUser(response);
+    console.log("CurretnUser", response);
+  };
+
   const fetchOrders = async (e) => {
     const response = await authService.getOrders();
     setOrders(response);
+    // console.log("=========Orders loop=========");
+
+    // console.log("=========Orders length=========");
+    // console.log(response.length);
     console.log("=========Orders=========");
     console.log(response);
   };
 
-  // const mapOrders = orders.map((el) => {
-  //   const productName = el.productId.name;
-  //   const orderedBy = el.userId.fullName;
-  //   return {
-  //     id: el.id,
-  //     productName,
-  //     orderedBy,
-  //     orderedQuantity: el.quantity,
-  //     location: el.location,
-  //     orderStatus: el.orderStatus,
-  //     totalPrice: el.totalPrice,
-  //   };
-  // });
+  const mapOrderedProducts = (orderedItems) => {
+    //console.log("*******", orderedItems);
+    const mappedProducts = orderedItems?.map((el) => {
+      return {
+        productName: el?.productName,
+        quantity: el?.quantity,
+      };
+    });
+    console.log("*******", mappedProducts);
+    return mappedProducts;
+  };
+  const mapOrders = orders.map((el) => {
+    const products = mapOrderedProducts(el?.orderedProduct?.orderedItems);
+    return {
+      id: el?.orderUniqueId,
+      orderedBy: currentUser.userName,
+      location: el?.location,
+      orderStatus: el?.orderStatus,
+      orderedProducts: products?.length,
+    };
+  });
 
-  //console.log("Mapped Data", mapOrders);
+  console.log("Mapped Data", mapOrders);
   useEffect(() => {
     fetchOrders();
+    getUser();
   }, []);
   return (
     <div className="orders">
@@ -87,7 +109,7 @@ const Orders = () => {
         </div>
 
         <div className="orderTable">
-          <AdminTable columns={columns} />
+          <AdminTable data={mapOrders} columns={columns} />
         </div>
       </div>
     </div>

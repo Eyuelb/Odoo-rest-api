@@ -153,7 +153,7 @@ const PrescriptionDetail = () => {
 
   const createOrder = async (e) => {
     const items = JSON.parse(window.localStorage.getItem("cart"));
-    const response = await AuthService.createOrder(items);
+    const response = await AuthService.createOrder(Object.assign({}, items));
     if (response) {
       window.alert("Order Successfully Created!");
     } else {
@@ -223,12 +223,12 @@ const PrescriptionDetail = () => {
               width={480}
               src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
             /> */}
+
             <img
-              className="default-img"
-              src={`data:image/jpeg;base64,${prescription.picturePath}`}
+              className="upload-img"
+              src={prescription.picturePath}
               onError={(e) => (e.target.src = "images/no_image10.jpg")}
             />
-
             <div className="flex">
               <button
                 className="bg-green-500 hover:bg-green-700 text-white font-bold px-2 py-2 ml-4 w-28 rounded-lg"

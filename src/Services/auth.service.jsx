@@ -2,11 +2,10 @@ import axios from "axios";
 
 //const API_URL = "http://localhost:8084/auth";
 const API_URL = process.env.REACT_APP_API_USER + "auth";
-const API_URL_USER = process.env.REACT_APP_API_USER + "/users";
-const API_URL_PRODUCT = process.env.REACT_APP_PRODUCT + "/product";
-const API_URL_ORDER = process.env.REACT_APP_PRODUCT + "/order";
-const API_ORL_PRESCRIPTION =
-  process.env.REACT_APP_PRESCRIPTION + "/requestType";
+const API_URL_USER = process.env.REACT_APP_API_USER + "users";
+const API_URL_PRODUCT = process.env.REACT_APP_PRODUCT + "product";
+const API_URL_ORDER = process.env.REACT_APP_PRODUCT + "order";
+const API_ORL_PRESCRIPTION = process.env.REACT_APP_PRESCRIPTION + "requestType";
 
 const signup = (userName, loginCode) => {
   return axios
@@ -32,15 +31,15 @@ const login = (userName, loginCode) => {
 
     .then((response) => {
       if (response.data.access_token) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        localStorage.setItem("LogInUser", JSON.stringify(response.data));
       }
-      console.log(response.data);
+      console.log("Log IN", response.data);
       return response.data;
     });
 };
 
 const logout = () => {
-  localStorage.removeItem("user");
+  localStorage.removeItem("LogInUser");
 };
 
 const getCurrentUser = () => {
@@ -163,7 +162,7 @@ const createOrder = (orderedProduct) => {
       return response.data.msg;
     })
     .catch(() => {
-      console.log("Can't create Order Successfully");
+      console.log("Order can't created successfully");
     });
 };
 
