@@ -45,7 +45,16 @@ const PrescriptionDetail = () => {
     setProduscts(response);
     console.log("Products", products);
   };
-
+  const searchProducts = (searchValue) => {
+    if (searchValue === "") {
+      fetchProducts();
+      return products;
+    } else {
+      return products.filter((filteredUsers) =>
+        filteredUsers.name.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+  };
   const getPrescriptionById = async () => {
     const response = await AuthService.getPrescriptionById(
       searchparams.get("id")
@@ -202,6 +211,12 @@ const PrescriptionDetail = () => {
 
     console.log("+++++++++++++", itemsFromCart);
   }, []);
+  useEffect(() => {
+    const searchedProducts = searchProducts(searchValue);
+    setProduscts(searchedProducts);
+    // const filteredProducts = filterProducts(filterValue);
+    // setProducts(filteredProducts);
+  }, [searchValue]);
 
   return (
     <div className="prescriptions">
