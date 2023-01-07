@@ -15,8 +15,10 @@ import authService from "../../Services/auth.service";
 
 const Sidebar = () => {
   const LogOut = async (e) => {
-    const response = await authService.logout();
+    const currentUser = JSON.parse(localStorage.getItem("LogInUser"))
+    const response = await authService.logout(currentUser.loggedInUserId);
     window.location.reload();
+    console.log (currentUser.loggedInUserId)
   };
 
   return (

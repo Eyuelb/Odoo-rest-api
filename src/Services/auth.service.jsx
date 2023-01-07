@@ -38,8 +38,19 @@ const login = (userName, loginCode) => {
     });
 };
 
-const logout = () => {
-  localStorage.removeItem("LogInUser");
+const logout = (userId) => {
+  return axios
+    .post(API_URL + "/logout?userId=" + userId)
+    .then((response) => {
+      if (response) {
+        localStorage.removeItem("LogInUser");
+        console.log("Successfully Logout");
+        window.location.reload();
+      }
+    })
+    .catch((err) => {
+      console.log("can't logout");
+    });
 };
 
 const getCurrentUser = () => {
