@@ -22,7 +22,7 @@ const Products = () => {
   const columns = [
     { title: "Product ID", dataIndex: "id" },
     { title: "Product Name", dataIndex: "name" },
-    { title: "Product Category", dataIndex: "categId" },
+    { title: "Product Category", dataIndex: "categName" },
     { title: "Internal Reference", dataIndex: "defaultCode" },
     { title: "Unit Price", dataIndex: "listPrice" },
     { title: "Quantity", dataIndex: "qtyAvailable" },
