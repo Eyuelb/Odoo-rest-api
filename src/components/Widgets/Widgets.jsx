@@ -20,9 +20,9 @@ const Widgets = ({ type }) => {
     console.log("Lenght", users);
     return response.length;
   };
-  const fetchProducts = async (e) => {
-    const response = await AuthService.getProductsFromDB();
-    setProducts(response.length);
+  const fetchOrders = async (e) => {
+    const response = await AuthService.getOrders();
+    setOrders(response.length);
   };
   const fetchPrescriptions = async (e) => {
     const response = await AuthService.getPrescriptions();
@@ -30,7 +30,7 @@ const Widgets = ({ type }) => {
   };
   useEffect(() => {
     fetchUsers();
-    fetchProducts();
+    fetchOrders();
     fetchPrescriptions();
   }, []);
   //const amount = 100;
@@ -59,7 +59,7 @@ const Widgets = ({ type }) => {
     case "order":
       data = {
         title: "ORDERS",
-        amount: products,
+        amount: orders,
         isMoney: false,
         link: (
           <Link to="/orders" style={{ textDecoration: "none" }}>

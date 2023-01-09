@@ -140,7 +140,7 @@ const getPrescriptions = () => {
       }
     })
     .catch(() => {
-      console.log("can't fetch orders");
+      console.log("can't fetch Prescriptions");
     });
 };
 

@@ -355,30 +355,18 @@ const User = () => {
                     //   },
                     // ]}
                   >
-                    <Select
+                    <select
                       style={{
                         width: 200,
                       }}
                       defaultValue="admin"
-                      options={[
-                        {
-                          value: "1",
-                          label: "admin",
-                        },
-                        {
-                          value: "2",
-                          label: "pharmacist",
-                        },
-                        {
-                          value: "3",
-                          label: "user",
-                        },
-                        {
-                          value: "4",
-                          label: "callcenter",
-                        },
-                      ]}
-                    />
+                    >
+                      <option value="admin">Admin</option>
+                      <option value="user">User</option>
+                      <option value="finance">Finance</option>
+                      <option value="callcenter">Call Center</option>
+                      <option value="pharmacist">Pharmacist</option>
+                    </select>
                   </Form.Item>
                   <Form.Item
                     className="p-2"
