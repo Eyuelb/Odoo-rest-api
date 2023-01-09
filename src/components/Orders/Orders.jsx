@@ -81,17 +81,17 @@ const Orders = () => {
   };
   const mapOrders = orders.map((el) => {
     const products = mapOrderedProducts(el?.orderedProduct?.orderedItems);
-    const user = getUser(el?.userId);
+    // const user = getUser(el?.userId);
     return {
       id: el?.orderUniqueId,
-      orderedBy: currentUser?.fullName,
+      orderedBy: el?.userId,
       location: el?.location,
       orderStatus: el?.orderStatus,
       orderedProducts: products?.length,
     };
   });
 
-  console.log("Mapped Data", mapOrders);
+  //console.log("Mapped Data", mapOrders);
   useEffect(() => {
     fetchOrders();
     //getUser();
