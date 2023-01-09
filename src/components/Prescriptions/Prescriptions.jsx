@@ -41,10 +41,9 @@ const Prescriptions = () => {
   };
 
   const columns = [
-    { title: "Ordered By", dataIndex: "name" },
-    { title: "Order Id", dataIndex: "orderId" },
+    { title: "Prescription ID", dataIndex: "prescriptionUniqueId" },
     { title: "Phone Number", dataIndex: "phoneNo" },
-    { title: "Location", dataIndex: "location" },
+
     { title: "Ordered data", dataIndex: "createdon" },
     { title: "Order Status", dataIndex: "status" },
     {
