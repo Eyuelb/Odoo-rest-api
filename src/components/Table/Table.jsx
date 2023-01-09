@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, Spin } from "antd";
 import "./table.scss";
 
 const AdminTable = ({ columns, data }) => {
@@ -16,6 +16,11 @@ const AdminTable = ({ columns, data }) => {
       columns={columns}
       dataSource={data}
       pagination={true}
+      loading={{
+        indicator: <Spin />,
+
+        spinning: !data,
+      }}
     />
   );
 };
