@@ -23,9 +23,11 @@ const Profile = () => {
   };
 
   const getUser = async (e) => {
-    const response = await authService.getUserById("4");
+    const currentUser = JSON.parse(localStorage.getItem("LogInUser"));
+    const response = await authService.getUserById(currentUser.loggedInUserId);
     setCurrentUser(response);
-    console.log("CurretnUser", currentUser);
+
+    console.log("Current User", response);
   };
   const onFinish = (values) => {
     console.log("Success:", values);

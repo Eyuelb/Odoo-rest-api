@@ -112,13 +112,19 @@ const User = () => {
     console.log("Button Checked", record.userId);
     const response = await AuthService.activateDeactivateUser(record.userId);
     if (response) {
-      //window.alert("User Update Successfully");
+      window.alert(response);
       console.log("Use Update Successfully");
       fetchUsers();
     }
   };
   const resetPassword = async (record) => {
-    console.log("Password Reset");
+    const response = await AuthService.resetUserPassword(
+      record.userName,
+      "123"
+    );
+    if (response) {
+      window.alert(response);
+    }
   };
   const openModal = () => {
     setIsOpen(true);

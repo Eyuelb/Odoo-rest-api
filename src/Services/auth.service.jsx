@@ -192,6 +192,20 @@ const changePassword = (userName, oldPassword, newPassword) => {
     });
 };
 
+const resetUserPassword = (userName, newPassword) => {
+  return axios
+    .put(API_URL + "/resetPasswordByAdmin", {
+      userName,
+      newPassword,
+    })
+    .then((response) => {
+      return response.msg;
+    })
+    .catch(() => {
+      console.log("unable to reset password");
+    });
+};
+
 const activateDeactivateUser = (userId) => {
   console.log("UserIDDDDD", userId);
   return axios
@@ -265,6 +279,7 @@ const authService = {
   getPrescriptionById,
   approvePrescription,
   declinePrescription,
+  resetUserPassword,
 };
 
 export default authService;
