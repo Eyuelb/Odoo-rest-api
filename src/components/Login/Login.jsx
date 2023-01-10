@@ -21,9 +21,13 @@ function Login({ setToken }) {
 
   return (
     <div className="login-wrapper mt-20">
-      <p className="block text-gray-700 text-sm font-bold mb-4 ">
-        Please Log In
-      </p>
+      <div className="items-center">
+        <div class="image">
+          <span className="items-center ">
+            <img id="userimage" src={require("./CheMed.jpg")} />
+          </span>
+        </div>
+      </div>
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96"
         onSubmit={handleLogin}
@@ -64,12 +68,6 @@ function Login({ setToken }) {
           >
             Log In
           </button>
-          <a
-            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-            href="#"
-          >
-            Forgot Password?
-          </a>
         </div>
       </form>
     </div>
