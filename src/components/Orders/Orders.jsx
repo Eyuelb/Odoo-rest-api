@@ -9,12 +9,26 @@ import { Table } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [mappedOrders, setMappedOrders] = useState([]);
   const [currentUser, setCurrentUser] = useState([]);
+
+  const [searchValue, setSearchValue] = useState("");
 
   const switchButton = (orderStatus) => {
     if (orderStatus === "active" || "pending") return "Deactivate";
     else return "Activate";
   };
+
+  // const filterOrder = (searchValue) => {
+  //   if (searchValue === "") {
+  //     fetchOrders();
+  //     return mappedOrders;
+  //   } else {
+  //     return mappedOrders.filter((filteredOrders) =>
+  //       filteredOrders.orderUniqueId.includes(searchValue)
+  //     );
+  //   }
+  // };
   const columns = [
     { title: "Order Id", dataIndex: "id" },
     { title: "Ordered By", dataIndex: "orderedBy" },
@@ -77,6 +91,7 @@ const Orders = () => {
       };
     });
     console.log("*******", mappedProducts);
+
     return mappedProducts;
   };
   const mapOrders = orders.map((el) => {
@@ -90,12 +105,21 @@ const Orders = () => {
       orderedProducts: products?.length,
     };
   });
+  //setMappedOrders(mapOrders);
 
   //console.log("Mapped Data", mapOrders);
   useEffect(() => {
     fetchOrders();
     //getUser();
   }, []);
+  useEffect(() => {
+    //console.log("Search Value Changed");
+    // filterUsersSync(searchValue).then((fusers) => {
+    //   setUsers(fusers);
+    // });
+    //const filteredorder = filterOrder(searchValue);
+    // setMappedOrders(filteredorder);
+  }, [searchValue]);
   return (
     <div className="orders">
       <Sidebar></Sidebar>
@@ -106,7 +130,9 @@ const Orders = () => {
         </h6>
         <div className="flex">
           <div className="m-auto ml-4">
-            <SearchBar />
+            <SearchBar
+            //callback={(searchValue) => setSearchValue(searchValue)}
+            />
           </div>
         </div>
 

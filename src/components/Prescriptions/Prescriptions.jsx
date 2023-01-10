@@ -61,9 +61,7 @@ const Prescriptions = () => {
               </li>
             </Link> */}
 
-            <button onClick={() => detailView(record.id)}>
-              View Details {record.id}
-            </button>
+            <button onClick={() => detailView(record.id)}>View Details</button>
           </div>
         );
       },
