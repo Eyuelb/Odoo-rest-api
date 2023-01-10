@@ -144,13 +144,14 @@ const getPrescriptions = () => {
     });
 };
 
-const addUsers = (fullName, userName, phone, password) => {
+const addUsers = (fullName, userName, phone, password, role) => {
   return axios
     .post(API_URL + "/createUser", {
       fullName,
       userName,
       phone,
       password,
+      role,
     })
     .then((response) => {
       console.log("User saved", response.data.msg);

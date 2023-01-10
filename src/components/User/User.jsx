@@ -53,6 +53,7 @@ const User = () => {
   const [userRole, setUserRole] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [isUserActive, setIsUserActive] = useState(true);
 
@@ -92,12 +93,12 @@ const User = () => {
   };
 
   const addUser = async (e) => {
-    console.log("User Add=======");
     const response = await AuthService.addUsers(
       fullName,
       userName,
       phone,
-      password
+      password,
+      role
     );
     if (response) {
       window.alert("User Successfully Created");
@@ -105,7 +106,6 @@ const User = () => {
     fetchUsers();
     closeModal();
   };
-  console.log("users", users);
 
   const activateAction = async (record) => {
     //setIsUserActive(!isUserActive);
@@ -362,10 +362,11 @@ const User = () => {
                     // ]}
                   >
                     <select
+                      id="role"
+                      onChange={(e) => setRole(e.target.value)}
                       style={{
                         width: 200,
                       }}
-                      defaultValue="admin"
                     >
                       <option value="admin">Admin</option>
                       <option value="user">User</option>
