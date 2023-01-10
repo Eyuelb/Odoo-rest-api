@@ -123,7 +123,7 @@ const User = () => {
       "123"
     );
     if (response) {
-      window.alert(response);
+      window.alert("User Password reset Successfully");
     }
   };
   const openModal = () => {

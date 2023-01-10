@@ -185,7 +185,7 @@ const changePassword = (userName, oldPassword, newPassword) => {
       newPassword,
     })
     .then((response) => {
-      console.log("password Changed", response.data.msg);
+      console.log("password Changed");
     })
     .catch(() => {
       console.log("can't change Password");
@@ -194,15 +194,31 @@ const changePassword = (userName, oldPassword, newPassword) => {
 
 const resetUserPassword = (userName, newPassword) => {
   return axios
-    .put(API_URL + "/resetPasswordByAdmin", {
+    .post(API_URL + "/resetPasswordByAdmin", {
       userName,
       newPassword,
+    })
+    .then((response) => {
+      window.alert("User Password reseted Successfully to 123");
+      return response.msg;
+    })
+    .catch(() => {
+      console.log("unable to reset password");
+    });
+};
+
+const profileEdit = (userName, fullName, userId, phone) => {
+  return axios
+    .put(API_URL + "/updateUser?userId=" + userId, {
+      userName,
+      fullName,
+      phone,
     })
     .then((response) => {
       return response.msg;
     })
     .catch(() => {
-      console.log("unable to reset password");
+      console.log("unable to update profile");
     });
 };
 
@@ -211,7 +227,8 @@ const activateDeactivateUser = (userId) => {
   return axios
     .put(API_URL + "/activate_deactivate?userId=" + userId)
     .then((response) => {
-      console.log("User Status Changed Successfully");
+      //console.log("User Status Changed Successfully");
+      window.alert("User Status Changed Successfully");
       return response.msg;
     })
     .catch((err) => {
@@ -280,6 +297,8 @@ const authService = {
   approvePrescription,
   declinePrescription,
   resetUserPassword,
+  profileEdit,
+  changePassword,
 };
 
 export default authService;
