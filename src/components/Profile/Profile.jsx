@@ -39,18 +39,31 @@ const Profile = () => {
   const handleProfileEdit = (event) => {
     event.preventDefault();
     console.log("EditUser", userName);
+    const userId = JSON.parse(localStorage.getItem("LogInUser")).loggedInUserId;
+
+    const response = authService.profileEdit(
+      userName,
+      fullName,
+      userId,
+      currentUser,
+      phone
+    );
+    if (response) {
+      window.alert("Your Profile is Successfully Edited");
+    }
   };
   const changePassword = async (event) => {
-    // const response = await authService.changePassword(
-    //   userName,
-    //   password,
-    //   newPassword
-    // );
-    // if (response) {
-    //   window.alert("Password Changed Successfully!");
-    // }
+    const response = await authService.changePassword(
+      userName,
+      password,
+      newPassword
+    );
+    if (response) {
+      window.alert("Password Changed Successfully!");
+    }
     console.log("Change Password", newPassword);
   };
+
   useEffect(() => {
     getUser();
   }, []);
