@@ -84,7 +84,7 @@ const Profile = () => {
 
             <div class="image items-center">
               <span className="items-center">
-                <img id="userimage" src="https://imgur.com/SSCE2Uj.jpg" />
+                <img id="userimage" src={require("./profile.PNG")} />
               </span>
             </div>
             <div class="text">
