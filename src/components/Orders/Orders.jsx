@@ -19,16 +19,16 @@ const Orders = () => {
     else return "Activate";
   };
 
-  // const filterOrder = (searchValue) => {
-  //   if (searchValue === "") {
-  //     fetchOrders();
-  //     return mappedOrders;
-  //   } else {
-  //     return mappedOrders.filter((filteredOrders) =>
-  //       filteredOrders.orderUniqueId.includes(searchValue)
-  //     );
-  //   }
-  // };
+  const filterOrder = (searchValue) => {
+    if (searchValue === "") {
+      fetchOrders();
+      return mappedOrders;
+    } else {
+      return mappedOrders.filter((filteredOrders) =>
+        filteredOrders.id.toString().includes(searchValue.toString())
+      );
+    }
+  };
   const columns = [
     { title: "Order Id", dataIndex: "id" },
     { title: "Ordered By", dataIndex: "orderedBy" },
@@ -80,6 +80,7 @@ const Orders = () => {
     // console.log(response.length);
     console.log("=========Orders=========");
     console.log(response);
+    mapOrders();
   };
 
   const mapOrderedProducts = (orderedItems) => {
@@ -94,17 +95,22 @@ const Orders = () => {
 
     return mappedProducts;
   };
-  const mapOrders = orders.map((el) => {
-    const products = mapOrderedProducts(el?.orderedProduct?.orderedItems);
-    // const user = getUser(el?.userId);
-    return {
-      id: el?.orderUniqueId,
-      orderedBy: el?.userId,
-      location: el?.location,
-      orderStatus: el?.orderStatus,
-      orderedProducts: products?.length,
-    };
-  });
+  const mapOrders = () => {
+    const mapOrders = orders.map((el) => {
+      const products = mapOrderedProducts(el?.orderedProduct?.orderedItems);
+      // const user = getUser(el?.userId);
+      return {
+        id: el?.orderUniqueId,
+        orderedBy: el?.userId,
+        location: el?.location,
+        orderStatus: el?.orderStatus,
+        orderedProducts: products?.length,
+      };
+    });
+    setMappedOrders(mapOrders);
+    return mapOrders;
+  };
+
   //setMappedOrders(mapOrders);
 
   //console.log("Mapped Data", mapOrders);
@@ -117,8 +123,8 @@ const Orders = () => {
     // filterUsersSync(searchValue).then((fusers) => {
     //   setUsers(fusers);
     // });
-    //const filteredorder = filterOrder(searchValue);
-    // setMappedOrders(filteredorder);
+    const filteredorder = filterOrder(searchValue);
+    setMappedOrders(filteredorder);
   }, [searchValue]);
   return (
     <div className="orders">
@@ -131,13 +137,13 @@ const Orders = () => {
         <div className="flex">
           <div className="m-auto ml-4">
             <SearchBar
-            //callback={(searchValue) => setSearchValue(searchValue)}
+              callback={(searchValue) => setSearchValue(searchValue)}
             />
           </div>
         </div>
 
         <div className="orderTable">
-          <AdminTable data={mapOrders} columns={columns} />
+          <AdminTable data={mappedOrders} columns={columns} />
         </div>
       </div>
     </div>
