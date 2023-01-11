@@ -11,6 +11,7 @@ import { createSearchParams, useNavigate } from "react-router-dom";
 
 const Prescriptions = () => {
   const [prescriptions, setPrescriptions] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
   const id = 1;
 
   let navigate = useNavigate();
@@ -24,6 +25,18 @@ const Prescriptions = () => {
       status: "Active",
     },
   ];
+  const filterPrescription = (searchValue) => {
+    if (searchValue === "") {
+      fetchPrescriptions();
+      return prescriptions;
+    } else {
+      return prescriptions.filter((filteredOrders) =>
+        filteredOrders.prescriptionUniqueId
+          .toString()
+          .includes(searchValue.toString())
+      );
+    }
+  };
   const fetchPrescriptions = async (e) => {
     const response = await authService.getPrescriptions();
     setPrescriptions(response);
@@ -73,6 +86,10 @@ const Prescriptions = () => {
   useEffect(() => {
     fetchPrescriptions();
   }, []);
+  useEffect(() => {
+    const filteredUsers = fetchPrescriptions(searchValue);
+    setPrescriptions(filteredUsers);
+  }, [searchValue]);
   return (
     <div className="prescriptions">
       <Sidebar></Sidebar>
@@ -83,7 +100,9 @@ const Prescriptions = () => {
         </h6>
         <div className="flex">
           <div className="m-auto ml-4">
-            <SearchBar />
+            <SearchBar
+              callback={(searchValue) => setSearchValue(searchValue)}
+            />
           </div>
         </div>
 
