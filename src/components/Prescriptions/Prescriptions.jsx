@@ -27,9 +27,9 @@ const Prescriptions = () => {
   const fetchPrescriptions = async (e) => {
     const response = await authService.getPrescriptions();
     setPrescriptions(response);
-    var numDate = new Date(response[0].createdon);
+    //var numDate = new Date(response[0].createdon);
     console.log("**Prescriptions**", response);
-    console.log("data===->", numDate);
+    //console.log("data===->", numDate);
   };
   const detailView = (data) => {
     console.log("DATA", data);
