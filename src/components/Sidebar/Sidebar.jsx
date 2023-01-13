@@ -15,16 +15,19 @@ import authService from "../../Services/auth.service";
 
 const Sidebar = () => {
   const LogOut = async (e) => {
-    const currentUser = JSON.parse(localStorage.getItem("LogInUser"))
+    const currentUser = JSON.parse(localStorage.getItem("LogInUser"));
     const response = await authService.logout(currentUser.loggedInUserId);
     window.location.reload();
-    console.log (currentUser.loggedInUserId)
+    console.log(currentUser.loggedInUserId);
   };
 
   return (
     <div className="sidebar">
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
+          {/* <span className="items-center  ">
+            <img id="userimage" src={require("./CheMed.jpg")} />
+          </span> */}
           <span className="logo text-white">CheMed Admin</span>
         </Link>
       </div>

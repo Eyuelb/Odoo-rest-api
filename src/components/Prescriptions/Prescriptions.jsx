@@ -25,18 +25,7 @@ const Prescriptions = () => {
       status: "Active",
     },
   ];
-  const filterPrescription = (searchValue) => {
-    if (searchValue === "") {
-      fetchPrescriptions();
-      return prescriptions;
-    } else {
-      return prescriptions.filter((filteredOrders) =>
-        filteredOrders.prescriptionUniqueId
-          .toString()
-          .includes(searchValue.toString())
-      );
-    }
-  };
+
   const fetchPrescriptions = async (e) => {
     const response = await authService.getPrescriptions();
     setPrescriptions(response);
@@ -53,6 +42,18 @@ const Prescriptions = () => {
         id: data,
       }).toString(),
     });
+  };
+  const filterPrescription = (searchValue) => {
+    if (searchValue === "") {
+      fetchPrescriptions();
+      return prescriptions;
+    } else {
+      return prescriptions.filter((filteredOrders) =>
+        filteredOrders.prescriptionUniqueId
+          .toString()
+          .includes(searchValue.toString())
+      );
+    }
   };
 
   const columns = [
@@ -87,7 +88,7 @@ const Prescriptions = () => {
     fetchPrescriptions();
   }, []);
   useEffect(() => {
-    const filteredUsers = fetchPrescriptions(searchValue);
+    const filteredUsers = filterPrescription(searchValue);
     setPrescriptions(filteredUsers);
   }, [searchValue]);
   return (
