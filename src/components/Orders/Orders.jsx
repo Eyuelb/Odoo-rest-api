@@ -19,16 +19,6 @@ const Orders = () => {
     else return "Activate";
   };
 
-  const filterOrder = (searchValue) => {
-    if (searchValue === "") {
-      fetchOrders();
-      return mappedOrders;
-    } else {
-      return mappedOrders.filter((filteredOrders) =>
-        filteredOrders.id.toString().includes(searchValue.toString())
-      );
-    }
-  };
   const columns = [
     { title: "Order Id", dataIndex: "id" },
     { title: "Ordered By", dataIndex: "orderedBy" },
@@ -73,14 +63,26 @@ const Orders = () => {
 
   const fetchOrders = async (e) => {
     const response = await authService.getOrders();
-    setOrders(response);
+    //setOrders(response);
+    const mapOrders = response.map((el) => {
+      const products = mapOrderedProducts(el?.orderedProduct?.orderedItems);
+      //const user = getUser(el?.userId);
+      return {
+        id: el?.orderUniqueId,
+        orderedBy: el?.userId,
+        location: el?.location,
+        orderStatus: el?.orderStatus,
+        orderedProducts: products?.length,
+      };
+    });
+    setOrders(mapOrders);
     // console.log("=========Orders loop=========");
 
     // console.log("=========Orders length=========");
     // console.log(response.length);
     console.log("=========Orders=========");
-    console.log(response);
-    mapOrders();
+    console.log(mapOrders);
+    //mapOrders();
   };
 
   const mapOrderedProducts = (orderedItems) => {
@@ -95,25 +97,39 @@ const Orders = () => {
 
     return mappedProducts;
   };
-  const mapOrders = () => {
-    const mapOrders = orders.map((el) => {
-      const products = mapOrderedProducts(el?.orderedProduct?.orderedItems);
-      // const user = getUser(el?.userId);
-      return {
-        id: el?.orderUniqueId,
-        orderedBy: el?.userId,
-        location: el?.location,
-        orderStatus: el?.orderStatus,
-        orderedProducts: products?.length,
-      };
-    });
-    setMappedOrders(mapOrders);
-    return mapOrders;
-  };
+  //const mapOrders = () => {
+  // const mapOrders = orders.map((el) => {
+  //   const products = mapOrderedProducts(el?.orderedProduct?.orderedItems);
+  //   // const user = getUser(el?.userId);
+  //   return {
+  //     id: el?.orderUniqueId,
+  //     orderedBy: el?.userId,
+  //     location: el?.location,
+  //     orderStatus: el?.orderStatus,
+  //     orderedProducts: products?.length,
+  //   };
+  // });
+
+  //   setMappedOrders(mapOrders);
+  //   console.log("*******Mapped Orders******");
+  //   console.log(mapOrders);
+  //   return mapOrders;
+  // };
 
   //setMappedOrders(mapOrders);
 
   //console.log("Mapped Data", mapOrders);
+
+  const filterOrder = (searchValue) => {
+    if (searchValue === "") {
+      fetchOrders();
+      return orders;
+    } else {
+      return orders.filter((filteredOrders) =>
+        filteredOrders.id.toString().includes(searchValue.toString())
+      );
+    }
+  };
   useEffect(() => {
     fetchOrders();
     //getUser();
@@ -124,7 +140,7 @@ const Orders = () => {
     //   setUsers(fusers);
     // });
     const filteredorder = filterOrder(searchValue);
-    setMappedOrders(filteredorder);
+    setOrders(filteredorder);
   }, [searchValue]);
   return (
     <div className="orders">
@@ -138,12 +154,13 @@ const Orders = () => {
           <div className="m-auto ml-4">
             <SearchBar
               callback={(searchValue) => setSearchValue(searchValue)}
+              //onChange={filterOrder}
             />
           </div>
         </div>
 
         <div className="orderTable">
-          <AdminTable data={mappedOrders} columns={columns} />
+          <AdminTable data={orders} columns={columns} />
         </div>
       </div>
     </div>
