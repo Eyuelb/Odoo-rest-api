@@ -8,20 +8,26 @@ RUN npm install
 
 COPY . .
 
-ARG REACT_APP_API_USER
-ARG REACT_APP_PRODUCT
-ARG REACT_APP_PRESCRIPTION
+ARG VITE_USER_API
+ARG VITE_ORDER_API 
+ARG VITE_ORDER_BY_PRESCRIPTION_API
 
-ENV REACT_APP_API_USER=${REACT_APP_API_USER}
-ENV REACT_APP_PRODUCT=${REACT_APP_PRODUCT}
-ENV REACT_APP_PRESCRIPTION=${REACT_APP_PRESCRIPTION}
+ENV VITE_USER_API = ${VITE_USER_API}
+ENV VITE_ORDER_API = ${VITE_ORDER_API}
+ENV VITE_ORDER_BY_PRESCRIPTION_API = ${VITE_ORDER_BY_PRESCRIPTION_API}
+
+# RUN npm run build
+
+# FROM nginx:stable-alpine
+
+# COPY --from=builder /app/dist/ /usr/share/nginx/html/
+
+# EXPOSE 80
+
+# CMD ["nginx", "-g", "daemon off;" ]
 
 RUN npm run build
 
-FROM nginx:stable-alpine
+EXPOSE 4173
 
-COPY --from=builder /app/build/ /usr/share/nginx/html/
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;" ]
+CMD ["npm", "run", "preview" ]
