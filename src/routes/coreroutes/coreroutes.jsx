@@ -2,6 +2,7 @@ import React from 'react';
 import {
 	HomeIcon,
 	UserCircleIcon,
+
 	TableCellsIcon,
 	BellIcon,
 	ArrowRightOnRectangleIcon,
@@ -181,6 +182,22 @@ export const CoreRoutes = [
 				sidenavlinked: true,
 				type: 'mainPage',
 				name: "Manage Users",
+				pagesgroupId: "main",
+				pagesgroupName: "main pages",
+				offlinecanRender:false,
+				pageAccessPrivilege:['admin','guest']
+
+			},
+			{
+				path: '/login',
+				parentpath:'',
+				element: <LoginPage />,
+				icon: <UserCircleIcon {...icon} />,
+				exact: true,
+				secured: false,
+				sidenavlinked: true,
+				type: 'mainPage',
+				name: "Login",
 				pagesgroupId: "main",
 				pagesgroupName: "main pages",
 				offlinecanRender:false,

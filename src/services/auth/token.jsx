@@ -1,9 +1,7 @@
 import { api} from "@services";
 
-export const refreshTokenService = (token) => {
-  return api.post("/auth/refreshtoken", {
-    refreshToken: token
-  }).then((response) => {
+export const refreshTokenService = () => {
+  return api.post("/auth/refreshtoken").then((response) => {
     return response;
   });
 };
@@ -15,12 +13,12 @@ export const getLocalRefreshToken = () => {
 export const getLocalAccessToken = () => {
   const {state} = JSON.parse(localStorage.getItem("user-data-storage"));
 
-  return state.user?.accessToken;
+  return state.user?.access_token;
 };
 
 export const updateLocalAccessToken = (token) => {
   let user = JSON.parse(localStorage.getItem("user"));
-  user.accessToken = token;
+  user.access_token = token;
   localStorage.setItem("user", JSON.stringify(user));
 };
 

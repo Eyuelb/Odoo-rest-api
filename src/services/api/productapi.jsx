@@ -1,25 +1,20 @@
-// Import Axios library and some utility functions from @services module
 import axios from "axios";
-import { getLocalAccessToken, getLocalRefreshToken, updateLocalAccessToken, getCookiesRefreshToken } from "@services";
+import { getLocalAccessToken, getLocalRefreshToken} from "@services";
 import { setTokenToState } from '@stateManagment'
-
-// Define the base URL for the back-end API
-const URL = import.meta.env.VITE_BACK_END_BASE_URL_DEV;
-
-// Create an Axios instance with the base URL and default headers
-export const api = axios.create({
-  baseURL: URL+'/api',
+const URL = import.meta.env.VITE_ORDER_API.includes('=')?import.meta.env.VITE_ORDER_API.slice(1).trim():import.meta.env.VITE_ORDER_API;
+export const productapi = axios.create({
+  baseURL: URL+'/product',
   headers: {
     "Content-Type": "application/json",
   },
+  
 });
 
 // Add a request interceptor to add the JWT access token to each outgoing request
-api.interceptors.request.use( 
+productapi.interceptors.request.use( 
   (config) => {
-   // 
 
-    
+
     // Add the access token to the request headers if it exists
     if (getLocalAccessToken()) {
 
@@ -38,17 +33,18 @@ api.interceptors.request.use(
 );
 
 // Add a response interceptor to handle expired access tokens
-api.interceptors.response.use(
+productapi.interceptors.response.use(
   (res) => {
     // If the response is successful, return it as is
     return res;
   },
   async (err) => {
+
     // Retrieve the original request config from the error object
     const originalConfig = await err.config;
     
     // Check if the original request was not for the /auth/signin endpoint and if the response status is 401 (Unauthorized)
-    if (originalConfig.url !== "/auth/login" && err.response) {
+    if (originalConfig.url !== "/login" && err.response) {
       if (err.response.status === 401 && !originalConfig._retry) {
         // If the access token is expired and this is the first retry, attempt to refresh the token
         originalConfig._retry = true;
@@ -56,7 +52,7 @@ api.interceptors.response.use(
 
            // Retrieve the new access token from the response data
           const responce = getLocalRefreshToken()&&await setTokenToState();
-          return api(originalConfig);
+          return productapi(originalConfig);
         } catch (_error) {
 
           // (getLocalRefreshToken()&&!!_error.response.status&&_error.response.status !== 200)&&setTokenToState(_error.response);

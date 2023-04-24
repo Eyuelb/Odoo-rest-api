@@ -60,9 +60,10 @@ export const MainPage = ({ chilrenpages }) => {
                         height: '100%',
                         borderRadius: '35px',
                         backdropFilter: 'blur(8px)',
-                        boxShadow: "3px 3px 23px 0px #8f8e8e",
+                        boxShadow: "0px 1px 11px 0px #8f8e8e",
                         display: "block",
                         padding: '15px 15px',
+                        background:"primary",
 
                     }}
                 >

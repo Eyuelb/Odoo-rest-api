@@ -1,54 +1,47 @@
-import { api,setUser,removeUser } from "@services";
+import { authapi,setUser,removeUser } from "@services";
 
-export const registerService = (username, email, password) => {
-  return api.post("/auth/signup", {
-    username,
-    email,
-    password
+export const registerService = (fullName,username,gender,phoneNo,email,password) => {
+  return authapi.post("/createUserAccount", {
+    fullName: fullName,
+    userName: username,
+    phoneNo: phoneNo,
+    password: password
   });
 };
 
-export const loginService = (phonenumber, password) => {
-  return api
-    .post("/auth/signin", {
-      phonenumber,
-      password
+export const loginService = (userName, loginCode) => {
+  return authapi
+    .post("/login", {
+      userName,
+      loginCode
     })
     .then((response) => {
-      if (response.data.accessToken) {
+      if (response.data.refresh_token) {
         setUser(response.data);
       }
-
       return response.data;
-    });
-};
-export const loginWithGoogleService = (accessKey) => {
-  return api
-    .post("/auth/loginWithGoogle",{
-      refreshToken:accessKey
+    }).catch((error) => {
+      return error;
     })
-    .then((response) => {
-      if (response.data.accessToken) {
-        setUser(response.data);
-      }
-
-      return response.data;
-    });
 };
-export const testToken = () => {
-  return api
-    .get("/test/admin")
-    .then((response) => {
-      //console.log(response)
-      // if (response.data.accessToken) {
-      //   setUser(response.data);
-      // }
 
-      return response.data;
-    });
-};
+
 export const logout = () => {
-  removeUser();
+  return authapi
+  .post(`/logout?userId=${encodeURIComponent(2)}`)
+  .then((response) => {
+
+  //  console.log({ data: response.data, status: response.status })
+    if(response.status === 200){
+      removeUser();
+    }
+    return { data: response.data, status: response.status }
+  }).catch((error) => {
+
+    //console.log(error.response)
+    return { data: error.response.data, status: error.response.status };
+  })
+  
 };
 
 export const getCurrentUser = () => {

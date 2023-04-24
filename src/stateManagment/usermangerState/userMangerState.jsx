@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from "zustand/middleware";
 import {produce} from "immer";
-import { loginService,loginWithGoogleService,refreshTokenService} from "@services";
+import { loginService,refreshTokenService} from "@services";
 const params = new URLSearchParams(window.location.search);
 export const userMangerState = create(
   persist(
@@ -11,60 +11,38 @@ export const userMangerState = create(
       },
       loginErrorMessage: "",
       loginError: false,
-      loginSuccessMessage: "",
+      loginSuccessMessage: "",  
       loginSuccess: false,
       isRegister: false,
-      isAuthenticated: true,
+      isAuthenticated: false,
       isVerificationCodeCheck: false,
       isLoggedout: false,    
       isLoading: false,
       loginRequest: async (phonenumber, password) => {
         set(produce((draft) => {
-          draft.isLoading = true;
+          draft.isLoading = true; 
         }));
-
+ 
         try {
           const response = await loginService(phonenumber, password);
-          set(produce((draft) => {
-            draft.isLoading = false;
-            draft.isAuthenticated = true;
-            draft.loginSuccessMessage = "Login Successfully";
-            draft.loginSuccess = true;
-            draft.user = response;
-          }));
-          window.location.href="/"
-        } catch (error) {
-          console.log(error);
-          set(produce((draft) => {
-            draft.isLoading = false;
-            draft.isAuthenticated = false;
-            draft.loginErrorMessage = error.response.data.message || error.response.data;
-            draft.loginError = true;
-          }));
-        }
-      },
-      loginRequestWithGoogleRequest: async () => {
-        set(produce((draft) => {
-          draft.isLoading = true;
-        }));
-
-        try {
-          const response = await loginWithGoogleService(params.get('accessKey'));
           console.log(response)
           set(produce((draft) => {
             draft.isLoading = false;
             draft.isAuthenticated = true;
             draft.loginSuccessMessage = "Login Successfully";
             draft.loginSuccess = true;
-            draft.user = response;
+            // draft.user = response;
+            draft.user = {
+              roles: ['guest']
+            };
           }));
-          window.location.href="/"
+        //  window.location.href="/"
         } catch (error) {
           console.log(error);
           set(produce((draft) => {
             draft.isLoading = false;
             draft.isAuthenticated = false;
-            draft.loginErrorMessage = "Login Error";
+            draft.loginErrorMessage = error.response.data.message || error.response.data;
             draft.loginError = true;
           }));
         }
@@ -147,7 +125,5 @@ export const setTokenToState = async() =>(await userMangerState.getState().token
 
 export const useUser = () => userMangerState((state) => state.user);
 export const loginRequest = () => userMangerState((state) => state.loginRequest);
-export const loginRequestWithGoogleRequest = () => userMangerState((state) => state.loginRequestWithGoogleRequest);
 export const logoutRequest = () => userMangerState((state) => state.logoutRequest);
-
 export const tokenRefreshRequest = () => userMangerState((state) => state.tokenRefreshRequest);

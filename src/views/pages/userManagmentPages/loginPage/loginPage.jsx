@@ -25,8 +25,8 @@ import {
 import {loginRequest} from '@stateManagment'
 export const LoginPage = () => {
     const Login = loginRequest();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('Adminki');
+    const [password, setPassword] = useState('Adminki');
 
     const handleSubmit = (e) =>{
         e.preventDefault()
@@ -81,6 +81,7 @@ export const LoginPage = () => {
                         id="username"
                         type="text"
                         name="email"
+                        value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
                     />
@@ -89,6 +90,7 @@ export const LoginPage = () => {
                         <Input
                             type="password"
                             name="password"
+                            value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />

@@ -31,7 +31,7 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                         width: '100%',
                         height: '100%',
                         borderRadius: '35px',
-                        boxShadow: "3px 3px 23px 0px #8f8e8e",
+                        boxShadow: "0px 1px 11px 0px #8f8e8e",
                         display: "flex",
                         alignItems: "center"
                     }}
@@ -45,7 +45,7 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                 display: "flex",
                                 alignItems: "center",
                                 flexDirection: "column",
-                                background:"white"
+                                background:"primary"
                                 
                             }}
                         >
@@ -56,7 +56,12 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
 
                             {
                                 routes.map(({ layout, title, pages, showInSidenav }, key) => (
-                                    showInSidenav && <ul key={key} className="flex flex-col items-center mt-3 border-t">
+                                    showInSidenav && <ul key={key} 
+                                    className="flex flex-col items-center mt-3 border-t"
+                                    sx={{
+                                        borderColor:"secondary"
+                                    }}
+                                    >
 
 
                                         {pages.map(({ icon, name, path, sidenavlinked, pageAccessPrivilege }, key) => (
@@ -71,9 +76,13 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                                                     justifyContent: 'center',
                                                                     width: "12",
                                                                     height: "12",
+                                                                    borderRadius:"10px",
+                                                                    marginTop:"3px",      
                                                                     bg: isActive && 'navHover',
+                                                                    color: isActive && 'navIconHover',
                                                                     '&:hover': {
                                                                         bg: 'navHover',
+                                                                        color: 'navIconHover',
                                                                     }
                                                                 }}>
                                                                 <span className="flex justify-center">
@@ -89,7 +98,7 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
 
                             </div>
 
-                            <Link className="flex items-center justify-center w-16 h-16 mt-auto bg-gray-200 hover:bg-gray-300" to="/login">
+                            <Link className="flex items-center justify-center w-16 h-16 mt-auto" to="/login">
                                 <svg className="w-6 h-6 stroke-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
@@ -119,7 +128,7 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                             height: '100%',
                             borderRadius: '35px',
                             backdropFilter: 'blur(8px)',
-                            boxShadow: "3px 3px 23px 0px #8f8e8e"
+                            boxShadow: "0px 1px 11px 0px #8f8e8e"
 
                         }}
                     >
@@ -131,7 +140,9 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                 overflow: "hidden",
                                 display: "flex",
                                 alignItems: "center",
-                                flexDirection: "column"
+                                flexDirection: "column",
+                                background:"primary"
+
                             }}
                         >
 
@@ -148,7 +159,12 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                             {
 
                             routes.map(({ layout, title, pages,showInSidenav }, key) => (
-                                showInSidenav&&<ul key={key} className="flex flex-col items-center w-full mt-3 border-t">
+                                showInSidenav&&<ul key={key} 
+                                className="flex flex-col items-center w-full mt-3 border-t"
+                                sx={{
+                                    borderColor:"secondary"
+                                }}
+                                >
                                     {/* {title && (
                                         <li className=" flex items-center flex-row p-1 ml-2">
                                             <Heading as='h2'>
@@ -157,7 +173,7 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                         </li>
 
                                     )} */}
-
+                                    <div className="mb-3"></div>
                                     {pages.map(({ icon, name, path, sidenavlinked,pageAccessPrivilege }, key) => (
                                         (sidenavlinked === true)&&userAccessLevel.some(level => pageAccessPrivilege.includes(level)) ?
                                             <li key={key} className="w-full">
@@ -173,9 +189,13 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                                             padding:"0px 3px",
                                                             borderTopLeftRadius:"3px",
                                                             borderTopRightRadius:"3px",
+                                                            borderRadius:"10px",
                                                             bg: isActive && 'navHover',
+                                                            color: isActive && 'navIconHover',
                                                             '&:hover': {
                                                                 bg: 'navHover',
+                                                                color: 'navIconHover',
+                                                                borderRadius:"10px",
                                                             }
                                                         }}
                                                         >
@@ -192,7 +212,7 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                             ))}
                             </div>
 
-                            <Link className="flex items-center justify-center w-full h-16 mt-auto bg-gray-200" to="/logout">
+                            <Link className="flex items-center justify-center w-full h-16 mt-auto" to="/logout">
                             <ArrowRightOnRectangleIcon className="w-6 h-6"/> Logout
                             </Link>
                         </div>
