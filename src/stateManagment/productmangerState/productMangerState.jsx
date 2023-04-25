@@ -16,6 +16,8 @@ export const productMangerState = create(
 
       try {
         const response = await getAllProductService(currentPage, itemsPerPage,keyword);
+        console.log(response);
+        
         set(produce((draft) => {
           draft.getAllProductloading = false;
           draft.allProducts = response.data.products;

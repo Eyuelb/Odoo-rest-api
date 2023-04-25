@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes ,Navigate } from 'react-router-d
 import { CoreRoutes } from "@routes";
 import { MainPage,LoginPage } from "@views";
 import { userMangerState } from '@stateManagment'
-import { MessageHandler } from "@components"
+import { MessageHandler,ErrorBoundary } from "@components"
 
 
 function App() {
@@ -28,8 +28,10 @@ const showContentMenus = (routesList,userAccessLevel) => {
    
     <Router>
       <Fragment>
-      <MessageHandler/>
-      {isAuthenticated?<MainPage chilrenpages={showContentMenus(CoreRoutes, user.roles)} />:<LoginPage/>}
+      <ErrorBoundary>
+        <MessageHandler/>
+        {isAuthenticated?<MainPage chilrenpages={showContentMenus(CoreRoutes, user.roles)} />:<LoginPage/>}
+      </ErrorBoundary>
       </Fragment>
     </Router>
   );
