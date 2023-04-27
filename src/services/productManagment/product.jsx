@@ -1,10 +1,12 @@
 import { productapi} from "@services";
 export const getAllProductService = async (page, size,keyword) => {
+  console.log("getAllProductService")
+  console.log(keyword)
    let productName = (keyword != null && keyword != '')? `&name=${encodeURIComponent(keyword)}` : ''
   // let listprice = category ? `&listprice=${encodeURIComponent(10)}` : ''
   // let productBrand = brand ? `&productBrand=${encodeURIComponent(brand)}` : ''
   // let productPrice = price ? `&startPrice=${encodeURIComponent(price[0])}&endPrice=${encodeURIComponent(price[1])}` : ''
-
+  console.log(productName)
   return await productapi
     .get(`/getall?page=${encodeURIComponent(page)}&size=${encodeURIComponent(size)}`+productName)
     .then((response) => {

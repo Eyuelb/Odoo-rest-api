@@ -23,8 +23,20 @@ export const usePageLayoutStore = create(
       {
         name: 'page-layout-storage',
         storage: {
-          getItem: (key) => JSON.parse(localStorage.getItem(key)),
-          setItem: (key, value) => localStorage.setItem(key, JSON.stringify(value)),
+          getItem: (key) => {
+            const state = JSON.parse(localStorage.getItem(key));
+            if (state) {
+              // Exclude headnavStick property from the persisted state
+              const { headnavStick, ...rest } = state.pageLayout;
+              return { pageLayout: rest };
+            }
+            return null;
+          },
+          setItem: (key, value) => {
+            // Include headnavStick property in the state object before persisting
+            const state = { pageLayout: { ...value.state.pageLayout,headnavStick:false}};
+            localStorage.setItem(key, JSON.stringify(state));
+          },
         },
         
       },

@@ -78,11 +78,8 @@ export const HeadNav = () => {
                         />
                     </IconButton>
                 </div>
-                <div className="flex items-center ml-auto"
-                >
-                    <div className="mr-auto md:mr-4 md:w-56 p-3">
-                        <Input label="Type here" />
-                    </div>
+                <div className="flex items-center ml-auto">
+
 
                     <IconButton
                         variant="navIconButton"
