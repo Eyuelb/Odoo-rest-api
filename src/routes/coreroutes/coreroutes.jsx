@@ -19,6 +19,8 @@ import {
 	// AddProduct,
 	 ManageProducts,
 	// EditProduct,
+	CreateOrder,
+	DirectOrder,
 	LoginPage
  } from "@views";
 
@@ -102,7 +104,7 @@ export const CoreRoutes = [
 			{
 				path: '/create-orders',
 				parentpath:'',
-				element: <DashboardPage />,
+				element: <CreateOrder />,
 				icon: <ShoppingBagIcon {...icon} />,
 				exact: true,
 				secured: false,
@@ -118,7 +120,7 @@ export const CoreRoutes = [
 			{
 				path: '/direct-orders',
 				parentpath:'',
-				element: <DashboardPage />,
+				element: <DirectOrder />,
 				icon: <ShoppingCartIcon {...icon} />,
 				exact: true,
 				secured: false,

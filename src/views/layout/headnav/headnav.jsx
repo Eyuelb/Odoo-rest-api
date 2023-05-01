@@ -46,7 +46,7 @@ export const HeadNav = () => {
                 display: "flex",
                 alignItems: "center",
                 padding: '0px 15px',
-                boxShadow: t => !headnavStick && `0px 1px 11px 0px ${t.colors.text}`,
+                boxShadow: t => !headnavStick && `0px 1px 4px 0px ${t.colors.text}`,
 
             }}>
                 <div

@@ -44,7 +44,7 @@ export const theme = ()=>{
     },
     colors: {
       primary:darMode?"#111827":"#fff",
-      secondary: "#0ca69e",
+      secondary: "#0ca69e94",
       text:darMode?"#fff":"#0c2a41",
       textHover:"#111827",
       input: "#F9FAFB",

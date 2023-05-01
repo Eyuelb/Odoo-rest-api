@@ -4,17 +4,14 @@ import React from "react";
 import { IconButton, Divider, Spinner, Flex } from 'theme-ui';
 import { HeadNav, Sidenav } from '@views'
 import { CoreRoutes } from "@routes";
-import { usePageLayoutStore,userMangerState } from '@stateManagment'
-import { Link, useLocation, NavLink } from "react-router-dom";
+import { useOpenSidenav,useOpenMiniSidenav,useHeadnavStick,useUser } from '@stateManagment'
 
 
 export const MainPage = ({ chilrenpages }) => {
-    const user = userMangerState((state)=>(state.user));
-
-    const { pageLayout, updatePageLayout } = usePageLayoutStore();
-    const { openSidenav, openMiniSidenav, headnavStick } = pageLayout;
-
-    
+    const user = useUser();
+    const openSidenav = useOpenSidenav();
+    const openMiniSidenav  = useOpenMiniSidenav();
+    const headnavStick  = useHeadnavStick();
     return (
         <div className="min-h-screen ">
              <aside
@@ -58,9 +55,9 @@ export const MainPage = ({ chilrenpages }) => {
                     sx={{
                         width: '100%',
                         height: '100%',
-                        borderRadius: '35px',
+                        borderRadius: '7px',
                         backdropFilter: 'blur(8px)',
-                        boxShadow: "0px 1px 11px 0px #8f8e8e",
+                        boxShadow: t => `0px 1px 3px 0px ${t.colors.text}`,
                         display: "block",
                         padding: '15px 15px',
                         background:"primary",
