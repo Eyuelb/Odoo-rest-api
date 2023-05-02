@@ -87,7 +87,7 @@ export const DirectOrder = () => {
 
   return (
     <div>
-      <Table TableConfiguration={TableConfiguration} data={orders} tableLoading={isGetAllOrderLoading} />
+      <Table TableConfiguration={TableConfiguration} data={orders.length > 0 && Array.isArray(orders)?orders:[]} tableLoading={orders.length > 0 && Array.isArray(orders)?isGetAllOrderLoading:true} />
     </div>
   )
 }

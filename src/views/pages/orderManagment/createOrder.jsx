@@ -3,7 +3,7 @@
 import React, { useState, useRef, Fragment } from 'react'
 import { IconButton, Input } from 'theme-ui';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { useProducts } from '@stateManagment';
+import { useProducts,useCart,useAddToCart,useRemoveFromCart,useIncreaseCartQuantity,useDecreaseCartQuantity,useClearCart } from '@stateManagment';
 import { MdRestaurantMenu } from 'react-icons/md'
 import { GiTakeMyMoney } from 'react-icons/gi'
 import { FaRegMoneyBillAlt } from 'react-icons/fa'
@@ -32,96 +32,23 @@ export const CreateOrder = () => {
   };
 
 
+  const { cart, isAddToCartLoading, totalPrice } = useCart();  
+  const addToCart = useAddToCart();
+  const removeFromCart = useRemoveFromCart();
+  const increaseCartQuantity = useIncreaseCartQuantity();
+  const decreaseCartQuantity = useDecreaseCartQuantity();
+  const clearCart = useClearCart()
 
 
-  const componentRef = useRef();
-  const [cart, setCart] = useState([])
-  const [paymentMode, setPaymentMode] = useState('')
-
-  const [total, setTotal] = useState(0)
-
-  const [show, setShow] = useState(0)
-
-
-  const addToCart = (productId) => {
-
-    const found = cart.some(el => el.id === productId);
-
-    if (found) {
-
-      let newProd = products.filter((p) => p.id === productId)
-      console.log(newProd)
-      const newCart = cart.map(p =>
-        p.id === productId
-          ? { ...p, productQuantity: p.productQuantity += 1, listPrice: p.listPrice + newProd[0].listPrice }
-          : p
-      );
-
-      let sum = newCart.reduce(function (acc, obj) { return acc + obj.listPrice; }, 0);
-      setTotal(sum)
-
-      setCart(newCart)
-
-    } else {
-      let newProd = products.filter((p) => p.id === productId)
-      console.log(newProd)
-      // newProd[0].productQuantity = 1
-      setCart(() => [...cart, ...newProd])
-    }
-  }
-
-  const increase = (productId) => {
-    const newCart = cart.map(p =>
-      p.id === productId
-        ? { ...p, productQuantity: p.productQuantity += 1, listPrice: p.listPrice + p.listPrice }
-        : p
-    );
-    let sum = newCart.reduce(function (acc, obj) { return acc + obj.listPrice; }, 0);
-    setTotal(sum)
-    setCart(newCart)
-  }
-
-  const decrease = (productId) => {
-    let decProd = products.filter((p) => p.id === productId)
-    console.log(decProd);
-    const newCart = cart.map(p =>
-      p.id === productId
-        ? { ...p, productQuantity: p.productQuantity -= 1, listPrice: p.listPrice - decProd[0].listPrice }
-        : p
-    );
-
-    const filtered = newCart.filter(p => p.productQuantity > 0)
-    let sum = filtered.reduce(function (acc, obj) { return acc + obj.listPrice; }, 0);
-    setTotal(sum)
-
-    setCart(filtered)
-  }
-
-
-  const clearAll = () => {
-    setCart([]);
-    setPaymentMode(null)
-  }
-
-  const remove = (id) => {
-
-    let newCart = cart.filter((p) => p.id !== id)
-    setCart(newCart)
-  }
 
   let formatCurrency = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "KES",
   });
-
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-
-  const printBill = () => {
-    handlePrint()
+  const clearAll = () => {
+    setCart([]);
+    setPaymentMode(null)
   }
-
   return (
 
 
@@ -250,66 +177,44 @@ export const CreateOrder = () => {
 
         {/* Right Side */}
         <div className="col-span-1  sm:col-span-1 md:col-span-1 mt-7">
-          <aside className="col-span-6 bg-white rounded-lg shadow-lg min-h-max px-3 py-4">
+          <aside className="col-span-6 rounded-lg shadow-lg min-h-max px-3 py-4"
+          sx={{
+            boxShadow: t => `0px 1px 4px 0px ${t.colors.text}`,
+            borderRadius: "4px",
+          }}>
             {/* cart items  */}
 
             <div className="flex justify-between items-center py-2">
               <p className="font-bold text-base">Order</p>
-              <button onClick={clearAll} className='font-bold text-gray-600 bg-slate-100 px-2 rounded-md'>clear all</button>
+              <button onClick={clearCart} className='font-bold px-2 rounded-md'>clear all</button>
             </div>
 
             <div>
-              {cart?.map((p, key) => (
-                <div key={key} className="product flex flex-col md:flex-row justify-between items-center bg-slate-200 px-1 rounded-xl  gap-y-2 pb-3 my-2">
+              {cart?.map(({productId,productName,productQuantity,productPrice,productTotalPrice}, key) => (
+                <div key={key} className="product flex flex-col md:flex-row justify-between items-center px-1 rounded-xl  gap-y-2 pb-3 my-2">
                   <div className="flex py-2 px-1 items-center">
                     <div className='ml-1 px-1'>
-                      <p className='text-xs md:text-sm font-bold text-gray-500 py-2'>{p.name}</p>
-                      <p className='font-semibold text-sm  md:text-base'>{formatCurrency.format(p.listPrice)}</p>
+                      <p className='text-xs md:text-sm font-bold py-2'>{productName}</p>
+                      <p className='font-semibold text-sm  md:text-base'>{formatCurrency.format(productTotalPrice)}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <button onClick={() => decrease(p.id)} className=""> <FiMinusCircle className='text-xl md:text-2xl' /> </button>
-                    <p className='font-bold'>{p.productQuantity}</p>
-                    <button onClick={() => increase(p.id)} className=""> < FiPlusCircle className='text-xl md:text-2xl' /> </button>
-                    <TbTrash className='mr-2 text-lg md:text-xl' onClick={() => remove(p.id)} />
+                    <button onClick={() => decreaseCartQuantity(productId,1)} className=""> <FiMinusCircle className='text-xl md:text-2xl' /> </button>
+                    <p className='font-bold'>{productQuantity}</p>
+                    <button onClick={() => increaseCartQuantity(productId,1)} className=""> < FiPlusCircle className='text-xl md:text-2xl' /> </button>
+                    <TbTrash className='mr-2 text-lg md:text-xl' onClick={() => removeFromCart(productId)} />
                   </div>
                 </div>
               ))}
             </div>
             {/* totals  */}
-            <div className='py-5 bg-slate-100 px-2 rounded shadow-sm'>
+            <div className='py-5 px-2 rounded shadow-sm'>
               <div className="flex justify-between">
                 <p className='font-bold text-sm'>Totals</p>
-                <p className='font-bold text-sm'>{formatCurrency.format(total)}</p>
+                <p className='font-bold text-sm'>{formatCurrency.format(totalPrice)}</p>
               </div>
             </div>
-            {/* payment method */}
-            {cart.length > 0 &&
-              <h5 className='font-medium pt-2'>Payment Method</h5>
-            }
-            {cart.length > 0 &&
-              <div className="flex justify-center gap-4 pt-2">
-                <button
-                  style={{ backgroundColor: paymentMode === "MPESA" && "red" }}
-                  onClick={() => setPaymentMode("MPESA")}
-                  className={`px-1 lg:px-4 bg-white border py-2 rounded  w-full flex flex-col lg:flex-row justify-around items-center hover:bg-slate-50`}>
-                  <FaRegMoneyBillAlt className='text-lg' />
-                  <p className='text-gray-500 font-bold text-xs uppercase'>m-pesa</p>
-                </button>
-                <button
-                  style={{ backgroundColor: paymentMode === "CASH" && "red" }}
-                  onClick={() => setPaymentMode("CASH")}
-                  className={`px-1 lg:px-4 bg-white border py-2 rounded  w-full flex flex-col lg:flex-row justify-around items-center hover:bg-slate-50`}>
-                  <GiTakeMyMoney className='text-lg' />
-                  <p className='text-gray-500 font-bold text-xs uppercase '>Cash</p>
-                </button>
-              </div>}
-            {/* print bill  */}
-            {cart.length > 0 &&
-              <button onClick={printBill} className="w-full mt-4 bg-green-400 rounded py-1 font-bold text-gray-700">
-                Print bill
-              </button>
-            }
+
           </aside>
 
         </div>

@@ -303,7 +303,7 @@ export const CartSingleProduct = ({ props, addToCart }) => {
 
                                     }
                                 }}
-                                onClick={(() => addToCart(id))}
+                                onClick={(() => addToCart(id,name,1,listPrice))}
 
 
                             >
