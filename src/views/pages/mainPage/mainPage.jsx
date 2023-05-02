@@ -29,7 +29,7 @@ export const MainPage = ({ chilrenpages }) => {
             }}
             
             >
-                {openSidenav && <Sidenav routes={CoreRoutes} brandImg='/images/Che_Logo.png' userAccessLevel={user.roles} />}
+                {openSidenav && <Sidenav routes={CoreRoutes} brandImg='/images/Che_Logo_html.png' userAccessLevel={user.roles} />}
             </aside>
 
 
@@ -39,7 +39,7 @@ export const MainPage = ({ chilrenpages }) => {
                    // width: openSidenav ? openMiniSidenav ? '90%' : '80%' : "100%",
                     //minWidth:"400px",
                     transition: 'margin-left 0.3s ease-in-out, width 0.3s ease-in-out',
-
+                      
                 }}
             >
                 <HeadNav />
@@ -52,12 +52,13 @@ export const MainPage = ({ chilrenpages }) => {
                     }}
                 >
                     <div
+                    className="shadow-2xl"
                     sx={{
                         width: '100%',
                         height: '100%',
                         borderRadius: '7px',
                         backdropFilter: 'blur(8px)',
-                        boxShadow: t => `0px 1px 3px 0px ${t.colors.text}`,
+                       // boxShadow: t => `0px 1px 3px 0px ${t.colors.text}`,
                         display: "block",
                         padding: '15px 15px',
                         background:"primary",

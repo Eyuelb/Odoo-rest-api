@@ -66,30 +66,36 @@ export const CreateOrder = () => {
 
         {/* Left side */}
         <div className="col-span-1 mb:col-span-1 tb:col-span-2 sm:col-span-2 md:col-span-4 h-full px-2">
+
+          <div className='w-full p-4'>
+          <div className='w-full p-4 shadow-lg'
+          sx={{
+            borderRadius: "13px",
+            background:"card"
+          }}>
           <div className="header flex items-baseline justify-between">
-            <h2 className='font-semibold text-base text-gray-800 leading-3 whitespace-nowrap ' >Choose Category </h2>
+            <h2 className='font-semibold text-base  leading-3 whitespace-nowrap ' >Choose Category </h2>
           </div>
           {/* categories  */}
           <div className='flex pt-5 gap-3 overflow-auto categories'>
-            <button className="card rounded-lg p-3 px-4 bg-white">
+            <button className="card rounded-lg p-3 px-4 ">
               <MdRestaurantMenu className='h-4 mx-auto' />
-              <p className='text-gray-700 font-bold text-sm'>OTC</p>
+              <p className=' font-bold text-sm'>OTC</p>
             </button>
-
-
-
-
-
           </div>
-          <div className='flex items-center justify-end w-full mt-3'>
+          </div>
+          <div className='flex items-center justify-end w-full mt-3 '>
             <div className="md:w-56 flex items-center flex-row"
               sx={{
                 width: "23rem",
-                boxShadow: t => `0px 1px 4px 0px ${t.colors.text}`,
+                // boxShadow: t => `0px 1px 4px 0px ${t.colors.text}`,
                 borderRadius: "4px",
+                background:"card"
               }}
             >
-              <Input label="Type here"
+              <Input 
+                className='shadow-lg'
+                label="Type here"
                 sx={{
 
                   height: "3rem"
@@ -107,7 +113,7 @@ export const CreateOrder = () => {
                   borderColor: "secondary"
                 }}
 
-                className='h-10 w-10'
+                className='h-10 w-10 shadow-lg'
                 onClick={() => handleSearch()}
               >
                 <MagnifyingGlassIcon className="h-6 w-6  text-inherit"
@@ -121,6 +127,8 @@ export const CreateOrder = () => {
               </IconButton>
             </div>
           </div>
+          </div>
+
           {isGetAllProductLoading ? (
             <div className=" animated fadeIn faster  flex justify-center items-center flex-col py-5">
               <div className="container z-10">
@@ -179,8 +187,9 @@ export const CreateOrder = () => {
         <div className="col-span-1  sm:col-span-1 md:col-span-1 mt-7">
           <aside className="col-span-6 rounded-lg shadow-lg min-h-max px-3 py-4"
           sx={{
-            boxShadow: t => `0px 1px 4px 0px ${t.colors.text}`,
-            borderRadius: "4px",
+            // boxShadow: t => `0px 1px 4px 0px ${t.colors.text}`,
+            borderRadius: "13px",
+            background:"card"
           }}>
             {/* cart items  */}
 

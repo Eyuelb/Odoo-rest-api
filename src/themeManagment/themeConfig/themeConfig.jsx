@@ -7,6 +7,7 @@ export const theme = ()=>{
 
   return  { 
     fonts: {
+      "html":"Söhne,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",
       "sans": "ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",
       "serif": "ui-serif,Georgia,Cambria,Times New Roman,Times,serif",
       "mono": "ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace",
@@ -47,6 +48,7 @@ export const theme = ()=>{
       secondary: "#0ca69e94",
       text:darMode?"#fff":"#0c2a41",
       textHover:"#111827",
+      card:darMode?"#1f2937":"#eeeeee",
       input: "#F9FAFB",
       button: '#3B82F6',
       buttonHover: "#10ddd2",

@@ -2,8 +2,10 @@
 import { Table } from '@components';
 import { useOrders } from '@stateManagment';
 import { EyeIcon, PencilIcon } from "@heroicons/react/24/solid";
+import { useNavigate } from 'react-router-dom';
 
 export const DirectOrder = () => {
+  const navigate = useNavigate();
   const { orders, isGetAllOrderLoading } = useOrders();
 
   const TableConfiguration = [
@@ -33,8 +35,7 @@ export const DirectOrder = () => {
             {
               ActionKey: 'id', ActionName: 'View', ActionIcon: EyeIcon, ActionIconColor: 'blue',
               ActionHandler: (id, handleFunction) => (
-
-                console.log("handleActionEdit(id)")
+                navigate(`/direct-orders/p/${id}`)
               ),
               ActionTask: ''
             },

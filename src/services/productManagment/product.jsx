@@ -53,3 +53,15 @@ export const getMostSoldProductService = async (page, size) => {
    })
 };
 
+export const changeProductVisibilityService = async (id) => {
+
+  return await productapi
+    .put(`/visibility?id=${encodeURIComponent(id)}`)
+    .then((response) => {
+       console.log(response.data)
+      return { data: response.data, status: response.status }
+    }).catch((error) => {
+      console.log(error.response)
+      return error;
+    })
+ };

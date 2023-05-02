@@ -25,6 +25,7 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                     }}
                 >
                     <div
+                    className="shadow-2xl"
                         sx={{
                             width: '100%',
                             height: '100%',

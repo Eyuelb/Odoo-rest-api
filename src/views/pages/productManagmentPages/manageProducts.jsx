@@ -4,7 +4,7 @@ import { useState, Fragment } from 'react';
 import { IconButton, Input } from 'theme-ui';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import ReactPaginate from 'react-paginate';
-import { useProducts } from '@stateManagment';
+import { useProducts,useChangeProductVisibilityRequest } from '@stateManagment';
 import { SingleProduct, SingleProductLoadingSkeleton } from "@components"
 
 
@@ -15,6 +15,7 @@ export const ManageProducts = () => {
     const [keyWord, setKeyWord] = useState("");
     const itemsPerPage = 30; // set items per page
     const { products, totalPages, isGetAllProductLoading } = useProducts(pageOffset, itemsPerPage, keyWord);
+    const changeProductVisibilityHandler = useChangeProductVisibilityRequest();
     const handlePageChange = (event) => {
         typeof (event.selected) == "number" && setPageOffset(event.selected);
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
@@ -98,7 +99,7 @@ export const ManageProducts = () => {
                             {products.map((product, key) =>
                             (
                                 <div key={key}>
-                                    <SingleProduct key={key} props={product} />
+                                    <SingleProduct key={key} props={product} action={changeProductVisibilityHandler} />
                                 </div>
                             )
                             )}

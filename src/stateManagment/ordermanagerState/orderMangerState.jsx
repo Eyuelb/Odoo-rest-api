@@ -4,7 +4,7 @@ import {produce} from "immer";
 import { getAllOrdersService,getOneOrderService } from "@services";
 
 export const orderManagerStore = create((set, get) => ({
-  orders: [],
+  orders: '',
   singleorder: [],
   orderContainer:[],
   totalItems:0,
@@ -145,10 +145,12 @@ export const useOrders = () => {
 export const useSingleOrder = (id) => {
   const singleorder = orderManagerStore(state => state.singleorder);
   const getOneOrdersRequest = orderManagerStore(state => state.getOneOrdersRequest);
+  const isGetOneOrderLoading = orderManagerStore((state) => state.isGetOneOrderLoading);
 
   useEffect(() => {
     getOneOrdersRequest(id);
-  }, [getOneOrdersRequest, id]);
+    return () => {}
+  }, []);
 
-  return singleorder;
+  return {singleorder,isGetOneOrderLoading};
 }

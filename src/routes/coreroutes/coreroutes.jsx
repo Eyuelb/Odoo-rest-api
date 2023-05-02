@@ -21,6 +21,7 @@ import {
 	// EditProduct,
 	CreateOrder,
 	DirectOrder,
+	OrderDetail,
 	LoginPage
  } from "@views";
 
@@ -129,6 +130,22 @@ export const CoreRoutes = [
 				name: "Direct Orders",
 				pagesgroupId: "main",
 				pagesgroupName: "main pages",
+				offlinecanRender:false,
+				pageAccessPrivilege:['admin','guest']
+
+			},
+			{
+				path: '/p/:id',
+				parentpath:'/direct-orders',
+				element: <OrderDetail />,
+				icon: <ShoppingCartIcon {...icon} />,
+				exact: true,
+				secured: false,
+				sidenavlinked: false,
+				type: 'subPage',
+				name: "Order Detail",
+				pagesgroupId: "order",
+				pagesgroupName: "order pages",
 				offlinecanRender:false,
 				pageAccessPrivilege:['admin','guest']
 

@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import { create } from 'zustand';
 import {produce} from "immer";
-import { getAllProductService,getOneProductService } from "@services";
+import { getAllProductService,getOneProductService,changeProductVisibilityService } from "@services";
 
 export const productManagerStore = create((set, get) => ({
   products: [],
@@ -17,8 +17,13 @@ export const productManagerStore = create((set, get) => ({
   getOneProductSuccess: false,
   getOneProductErrorMessage: "",
   getOneProductError: false,
+  changeProductvisibilitySuccessMessage: "",
+  changeProductvisibilitySuccess: false,
+  changeProductvisibilityErrorMessage: "",
+  changeProductvisibilityError: false,
   isGetAllProductLoading: false,
   isGetOneProductLoading: false,
+  isChangeProductvisibilityLoading: false,
   getAllProductsRequest: async (page, size,keyword) => {
     console.log(keyword)
     set(
@@ -98,6 +103,26 @@ export const productManagerStore = create((set, get) => ({
       }));
     }
   },
+  changeProductVisibilityRequest: async (id) => {
+    set(produce((draft) => {
+      draft.isGetOneProductLoading = true;
+    }));
+    try {
+      const response = await changeProductVisibilityService(id);
+      set(produce((draft) => {
+        draft.isGetOneProductLoading = false;
+        draft.changeProductvisibilitySuccessMessage = "Product visibility changed successfully.";
+        draft.changeProductvisibilitySuccess = true;
+      }));
+    } catch (error) {
+      console.log(error);
+      set(produce((draft) => {
+        draft.isGetOneProductLoading = false;
+        draft.changeProductvisibilityErrorMessage = "Failed to change product visibility.";
+        draft.changeProductvisibilityError = true;
+      }));
+    }
+  },
   productManagerStateCleaner: () => {
     set(produce((draft) => {
       draft.getAllProductSuccessMessage = "";
@@ -155,3 +180,6 @@ export const useSingleProduct = (id) => {
 
   return singleproduct;
 }
+
+
+export const useChangeProductVisibilityRequest = () => productManagerStore(state => state.changeProductVisibilityRequest);

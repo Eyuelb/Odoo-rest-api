@@ -76,15 +76,16 @@
 //         </div>
 //     )
 // }
-export const SingleProduct = ({ props, addToCart }) => {
+export const SingleProduct = ({ props, addToCart ,action }) => {
 
     const { id, name, imageMid, listPrice, productPreviousPrice, productQuantity, visibility } = props
 
     return (
         <div className="flex flex-col ">
             <div
+                
                 sx={{
-                    borderRadius: '10px',
+                    borderRadius: '13px',
                     boxShadow: t => `0px 1px 4px 0px ${t.colors.text}`,
                 }}>
                 <div>
@@ -101,7 +102,7 @@ export const SingleProduct = ({ props, addToCart }) => {
                                 sx={{
                                     width: "100%",
                                     height: "120px",
-                                    borderRadius: '10px',
+                                    borderRadius: '13px',
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center"
@@ -134,7 +135,7 @@ export const SingleProduct = ({ props, addToCart }) => {
                                 sx={{
                                     width: "100%",
                                     height: "35px",
-                                    borderRadius: '10px',
+                                    borderRadius: '13px',
                                 }}
                                 className="flex items-center p-1 justify-between min-w-0 rounded-md">
                                 <div
@@ -156,7 +157,7 @@ export const SingleProduct = ({ props, addToCart }) => {
                                 sx={{
                                     width: "100%",
                                     height: "35px",
-                                    borderRadius: '10px',
+                                    borderRadius: '13px',
                                 }}
                                 className="flex items-center w-full h-14 p-1 justify-between min-w-0 rounded-md">
                                 <div
@@ -183,7 +184,7 @@ export const SingleProduct = ({ props, addToCart }) => {
 
                                     }
                                 }}
-                                onClick={(() => addToCart(id))}
+                                onClick={(() => action(id))}
 
 
                             >
@@ -204,7 +205,7 @@ export const CartSingleProduct = ({ props, addToCart }) => {
         <div className="flex flex-col ">
             <div
                 sx={{
-                    borderRadius: '10px',
+                    borderRadius: '13px',
                     boxShadow: t => `0px 1px 4px 0px ${t.colors.text}`,
                 }}>
                 <div>
@@ -221,7 +222,7 @@ export const CartSingleProduct = ({ props, addToCart }) => {
                                 sx={{
                                     width: "100%",
                                     height: "120px",
-                                    borderRadius: '10px',
+                                    borderRadius: '13px',
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center"
@@ -254,7 +255,7 @@ export const CartSingleProduct = ({ props, addToCart }) => {
                                 sx={{
                                     width: "100%",
                                     height: "35px",
-                                    borderRadius: '10px',
+                                    borderRadius: '13px',
                                 }}
                                 className="flex items-center p-1 justify-between min-w-0 rounded-md">
                                 <div
@@ -276,7 +277,7 @@ export const CartSingleProduct = ({ props, addToCart }) => {
                                 sx={{
                                     width: "100%",
                                     height: "35px",
-                                    borderRadius: '10px',
+                                    borderRadius: '13px',
                                 }}
                                 className="flex items-center w-full h-14 p-1 justify-between min-w-0 rounded-md">
                                 <div
@@ -415,7 +416,7 @@ export const SingleProductLoadingSkeleton = () => {
         <div className="flex flex-col animate-pulse">
             <div
                 sx={{
-                    borderRadius: '10px',
+                    borderRadius: '13px',
                     boxShadow: t => `0px 1px 11px 0px ${t.colors.text}`,
                 }}>
                 <div>
@@ -432,7 +433,7 @@ export const SingleProductLoadingSkeleton = () => {
                                 sx={{
                                     width: "100%",
                                     height: "120px",
-                                    borderRadius: '10px',
+                                    borderRadius: '13px',
                                 }}
                                 className="bg-gray-200 rounded-2xl "
                             >
@@ -454,7 +455,7 @@ export const SingleProductLoadingSkeleton = () => {
                                 sx={{
                                     width: "100%",
                                     height: "35px",
-                                    borderRadius: '10px',
+                                    borderRadius: '13px',
                                 }}
                                 className="flex items-center p-1 justify-between min-w-0 rounded-md">
                                 <div
@@ -471,7 +472,7 @@ export const SingleProductLoadingSkeleton = () => {
                                 sx={{
                                     width: "100%",
                                     height: "35px",
-                                    borderRadius: '10px',
+                                    borderRadius: '13px',
                                 }}
                                 className="flex items-center w-full h-14 p-1 justify-between min-w-0 rounded-md">
                                 <div
@@ -496,7 +497,7 @@ export const CartSingleProductLoadingSkeleton = () => {
         <div className="flex flex-col animate-pulse">
             <div
                 sx={{
-                    borderRadius: '10px',
+                    borderRadius: '13px',
                     boxShadow: t => `0px 1px 11px 0px ${t.colors.text}`,
                 }}>
                 <div>
@@ -513,7 +514,7 @@ export const CartSingleProductLoadingSkeleton = () => {
                                 sx={{
                                     width: "100%",
                                     height: "120px",
-                                    borderRadius: '10px',
+                                    borderRadius: '13px',
                                 }}
                                 className="bg-gray-200 rounded-2xl "
                             >
@@ -535,7 +536,7 @@ export const CartSingleProductLoadingSkeleton = () => {
                                 sx={{
                                     width: "100%",
                                     height: "35px",
-                                    borderRadius: '10px',
+                                    borderRadius: '13px',
                                 }}
                                 className="flex items-center p-1 justify-between min-w-0 rounded-md">
                                 <div
@@ -552,7 +553,7 @@ export const CartSingleProductLoadingSkeleton = () => {
                                 sx={{
                                     width: "100%",
                                     height: "35px",
-                                    borderRadius: '10px',
+                                    borderRadius: '13px',
                                 }}
                                 className="flex items-center w-full h-14 p-1 justify-between min-w-0 rounded-md">
                                 <div
