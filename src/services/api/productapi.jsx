@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getLocalAccessToken, getLocalRefreshToken} from "@services";
 import { setTokenToState } from '@stateManagment'
-const URL = import.meta.env.VITE_ORDER_API.includes('=')?import.meta.env.VITE_ORDER_API.slice(1).trim():import.meta.env.VITE_ORDER_API;
+const URL = import.meta.env.VITE_ORDER_API;
 export const productapi = axios.create({
   baseURL: URL+'/product',
   headers: {
