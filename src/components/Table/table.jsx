@@ -293,9 +293,7 @@ function TablePartsHolder({ tableLoading, paginatedData, tableTittle, columns, c
 
 
     return (
-        <div>
-
-            <div className="overflow-hidden ">
+        <div className="overflow-hidden w-full h-full ">
                 <div className="px-4 py-5 sm:px-6 flex justify-between items-center">
                     <h2 className="text-2xl font-bold">{tableTittle != null && tableTittle}</h2>
                     <div className="w-1/3">
@@ -315,9 +313,6 @@ function TablePartsHolder({ tableLoading, paginatedData, tableTittle, columns, c
                     </div>
                 </div>
             </div>
-
-
-        </div>
 
     );
 }

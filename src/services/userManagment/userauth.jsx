@@ -43,7 +43,20 @@ export const logout = () => {
   })
   
 };
+export const getUserInfofindByIdService = (id) => {
+  return authapi
+  .get(`/findById?id=${encodeURIComponent(id)}`)
+  .then((response) => {
 
+   // console.log({ data: response.data, status: response.status })
+    return { data: response.data, status: response.status }
+  }).catch((error) => {
+
+    //console.log(error.response)
+    return { data: error.response.data, status: error.response.status };
+  })
+  
+};
 export const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };

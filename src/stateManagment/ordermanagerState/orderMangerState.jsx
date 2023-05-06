@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import { create } from 'zustand';
 import {produce} from "immer";
-import { getAllOrdersService,getOneOrderService } from "@services";
+import { getAllOrdersService,getOneOrderService,getOrderByUserIdService,getUserInfofindByIdService } from "@services";
 
 export const orderManagerStore = create((set, get) => ({
   orders: '',
@@ -17,8 +17,20 @@ export const orderManagerStore = create((set, get) => ({
   getOneOrderSuccess: false,
   getOneOrderErrorMessage: "",
   getOneOrderError: false,
+  userorder: [],
+  getUserOrderSuccessMessage: "",
+  getUserOrderSuccess: false,
+  getUserOrderErrorMessage: "",
+  getUserOrderError: false,
+  userInfo: [],
+  getUserInfoSuccessMessage: "",
+  getUserInforSuccess: false,
+  getUserInfoErrorMessage: "",
+  getUserInfoError: false,
   isGetAllOrderLoading: false,
   isGetOneOrderLoading: false,
+  isGetUserOrderLoading: false,
+  isGetUserInfoLoading: false,
   getAllOrdersRequest: async () => {
     set(
       produce((draft) => {
@@ -87,6 +99,8 @@ export const orderManagerStore = create((set, get) => ({
   getOneOrdersRequest: async (id) => {
     set(produce((draft) => {
       draft.isGetOneOrderLoading = true;
+      draft.isGetUserOrderLoading = true;
+      draft.isGetUserInfoLoading = true;
     }));
     try {
       const response = await getOneOrderService(id);
@@ -96,12 +110,55 @@ export const orderManagerStore = create((set, get) => ({
         draft.getOneOrderSuccessMessage = "Order feched successfully.";
         draft.getOneOrderSuccess = true;
       }));
+      const response2 = await getUserInfofindByIdService(response.data.userId);
+      set(produce((draft) => {
+        draft.isGetUserInfoLoading = false;
+        draft.userInfo = response2.data;
+        draft.getUserInfoSuccessMessage = "Orderd user info successfully fetched";
+        draft.getUserInforSuccess = true;
+      }));
+
+      const response3 = await getOrderByUserIdService(response.data.userId);
+      set(produce((draft) => {
+        draft.isGetUserOrderLoading = false;
+        draft.userorders = response3.data;
+        draft.getUserOrderSuccessMessage = "Order feched successfully.";
+        draft.getUserOrderSuccess = true;
+      }));
+
     } catch (error) {
       console.log(error);
       set(produce((draft) => {
         draft.isGetOneOrderLoading = false;
         draft.getOneOrderErrorMessage = "Failed to feched order.";
         draft.getOneOrderError = true;
+        draft.isGetUserInfoLoading = false;
+        draft.getUserInfoErrorMessage = "Failed to feched orderd user info.";
+        draft.getUserInfoError = true;
+        draft.isGetUserOrderLoading = false;
+        draft.getUserOrderErrorMessage = "Failed to feched order.";
+        draft.getUserOrderError = true;
+      }));
+    }
+  },
+  getUserOrdersRequest: async (id) => {
+    set(produce((draft) => {
+      draft.isGetOneOrderLoading = true;
+    }));
+    try {
+      const response = await getOrderByUserIdService(id);
+      set(produce((draft) => {
+        draft.isGetUserOrderLoading = false;
+        draft.userorders = response.data;
+        draft.getUserOrderSuccessMessage = "Order feched successfully.";
+        draft.getUserOrderSuccess = true;
+      }));
+    } catch (error) {
+      console.log(error);
+      set(produce((draft) => {
+        draft.isGetUserOrderLoading = false;
+        draft.getUserOrderErrorMessage = "Failed to feched order.";
+        draft.getUserOrderError = true;
       }));
     }
   },
@@ -143,14 +200,36 @@ export const useOrders = () => {
 
 // Custom hook to access the singleorder state
 export const useSingleOrder = (id) => {
-  const singleorder = orderManagerStore(state => state.singleorder);
   const getOneOrdersRequest = orderManagerStore(state => state.getOneOrdersRequest);
+  const singleorder = orderManagerStore(state => state.singleorder);
   const isGetOneOrderLoading = orderManagerStore((state) => state.isGetOneOrderLoading);
-
+  const userInfo = orderManagerStore(state => state.userInfo);
+  const isGetUserInfoLoading = orderManagerStore((state) => state.isGetUserInfoLoading);
+  const userorders = orderManagerStore(state => state.userorders);
+  const isGetUserOrderLoading = orderManagerStore((state) => state.isGetUserOrderLoading);
   useEffect(() => {
     getOneOrdersRequest(id);
     return () => {}
   }, []);
-
-  return {singleorder,isGetOneOrderLoading};
+  console.log(userInfo)
+  return {
+    singleorder,
+    isGetOneOrderLoading,
+    userInfo,
+    isGetUserInfoLoading,
+    userorders,
+    isGetUserOrderLoading
+  };
 }
+// export const useUserOrders = (id) => {
+//   const userorders = orderManagerStore(state => state.userorders);
+//   const getUserOrdersRequest = orderManagerStore(state => state.getUserOrdersRequest);
+//   const isGetUserOrderLoading = orderManagerStore((state) => state.isGetUserOrderLoading);
+
+//   useEffect(() => {
+//     getUserOrdersRequest(id);
+//     return () => {}
+//   }, []);
+
+//   return {userorders,isGetUserOrderLoading};
+// }

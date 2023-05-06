@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from "zustand/middleware";
 import {produce} from "immer";
-import { loginService,refreshTokenService} from "@services";
+import { loginService,refreshTokenService,getUserInfofindByIdService} from "@services";
 const params = new URLSearchParams(window.location.search);
 export const userMangerState = create(
   persist(
@@ -18,6 +18,12 @@ export const userMangerState = create(
       isVerificationCodeCheck: false,
       isLoggedout: false,    
       isLoading: false,
+      userInfo: [],
+      getUserInfoSuccessMessage: "",
+      getUserInforSuccess: false,
+      getUserInfoErrorMessage: "",
+      getUserInfoError: false,
+      isGetUserInfoLoading: false,
       loginRequest: async (phonenumber, password) => {
         set(produce((draft) => {
           draft.isLoading = true; 
@@ -63,6 +69,31 @@ export const userMangerState = create(
           draft.isLoading = false;
         }));
         window.location.href="/"
+      },
+      getUserInfofindByIdRequest: async (id) => {
+        set(produce((draft) => {
+          draft.isGetUserInfoLoading = true;
+        }));
+         
+        try {
+          const response = await getUserInfofindByIdService(id);
+          console.log(response)
+          set(produce((draft) => {
+            draft.isLoading = false;
+            draft.loginSuccessMessage = "User info successfully fetched";
+            draft.loginSuccess = true;
+            draft.user = response;
+          }));
+        //  window.location.href="/"
+        } catch (error) {
+          console.log(error);
+          set(produce((draft) => {
+            draft.isLoading = false;
+            draft.isAuthenticated = false;
+            draft.loginErrorMessage = error.response.data.message || error.response.data;
+            draft.loginError = true;
+          }));
+        }
       },
       tokenRefreshRequest: async () => {
 
