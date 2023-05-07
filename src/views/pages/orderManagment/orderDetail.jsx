@@ -2,7 +2,7 @@
 
 import { useParams } from "react-router-dom"
 import { useSingleOrder } from '@stateManagment';
-import { PageLoading,OrderPageUserInfoLoading, UserProfileIcon,Table } from '@components';
+import { PageLoading,OrderPageUserInfoLoading,OrderedProductTable, UserProfileIcon,Table } from '@components';
 
 
 export const OrderDetail = () => {
@@ -99,6 +99,9 @@ export const OrderDetail = () => {
                         <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9">Order #{singleorder?.id}</h1>
                         <p className="text-base font-medium leading-6">21st Mart 2021 at 10:34 PM</p>
                     </div>
+
+
+
                     <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
                         <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
                             <div className="p-6 w-full shadow-lg"
@@ -108,24 +111,14 @@ export const OrderDetail = () => {
                                 }}>
                                 <h2 className="text-xl font-bold mb-4">Customer’s Cart</h2>
                                 {Object.keys(singleorder.orderedProduct).map((key) => (
-                                    <div key={key}
-                                        className="flex items-center space-x-4 mb-6 p-3 font-bold"
-                                        sx={{
-                                            borderBottom: "solid 1px"
-                                        }}
-                                    >
-                                        <img className="w-24" src="/images/Che_Logo_html.png" alt="product image" />
-                                        <div className="flex-grow">
-                                            <h3 className="text-lg ">{singleorder.orderedProduct[key].productName}</h3>
-                                            <div className="flex justify-between items-center">
-                                                <p className="">${singleorder.orderedProduct[key].productPrice}</p>
-                                                <p className="">Qty: {singleorder.orderedProduct[key].quantity}</p>
-                                                <p className="">Total: ${singleorder.orderedProduct[key].totalPrice}</p>
-                                            </div>
-                                        </div>
+                                    <div key={key}>
+                                        <OrderedProductTable singleorder={singleorder.orderedProduct[key]}  />
                                     </div>
                                 ))}
                             </div>
+                            
+                            
+                            
                             <div
                                 className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full space-y-6 shadow-lg"
                                 sx={{

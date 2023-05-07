@@ -211,7 +211,7 @@ export const useSingleOrder = (id) => {
     getOneOrdersRequest(id);
     return () => {}
   }, []);
-  console.log(userInfo)
+  //console.log(userInfo)
   return {
     singleorder,
     isGetOneOrderLoading,

@@ -25,7 +25,7 @@ export const productManagerStore = create((set, get) => ({
   isGetOneProductLoading: false,
   isChangeProductvisibilityLoading: false,
   getAllProductsRequest: async (page, size,keyword) => {
-    console.log(keyword)
+    //console.log(keyword)
     set(
       produce((draft) => {
         draft.isGetAllProductLoading = true;
@@ -47,7 +47,7 @@ export const productManagerStore = create((set, get) => ({
         );
       } else {
         // Products list does not exist, fetch it from API
-        console.log(keyword)
+       // console.log(keyword)
         const response = await getAllProductService(page, size,keyword);
         set(
           produce((draft) => {
@@ -80,7 +80,7 @@ export const productManagerStore = create((set, get) => ({
         })
       );
     }
-    console.log(get().productContainer)
+   // console.log(get().productContainer)
   },
   getOneProductsRequest: async (id) => {
     set(produce((draft) => {
