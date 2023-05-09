@@ -7,72 +7,53 @@ export const getAllProductService = async (page, size,keyword) => {
   // let productBrand = brand ? `&productBrand=${encodeURIComponent(brand)}` : ''
   // let productPrice = price ? `&startPrice=${encodeURIComponent(price[0])}&endPrice=${encodeURIComponent(price[1])}` : ''
  // console.log(productName)
-  return await productapi
-    .get(`/getall?page=${encodeURIComponent(page)}&size=${encodeURIComponent(size)}`+productName)
-    .then((response) => {
-      // console.log(response.data)
-      return { data: response.data, status: response.status }
-    }).catch((error) => {
-      console.log(error)
-      return error;
-    })
+
+  try{
+    const response = await productapi.get(`/getall?page=${encodeURIComponent(page)}&size=${encodeURIComponent(size)}`+productName)
+    return response
+  }
+  catch(error){
+    return error.response;
+  }
 };
 
 export const getOneProductService = async (id) => {
-  
 
   try{
     const response = await productapi.get(`/findById?id=${encodeURIComponent(id)}`)
     return response
   }
   catch(error){
-    return error;
+    return error.response;
   }
-
-
-  // return await productapi
-  //   .get(`/findById?id=${encodeURIComponent(id)}`)
-  //   .then((response) => {
-  //     //   console.log(response.data)
-  //     return { data: response.data, status: response.status }
-  //   }).catch((error) => {
-  //     //  console.log(error.response)
-  //     return { data: error.response.data, status: error.response.status };
-  //   })
 };
 export const searchProductService = async (page,size,keyword) => {
-  return await productapi
-    .get(`/getall?page=${encodeURIComponent(page)}&size=${encodeURIComponent(size)}&name=${encodeURIComponent(keyword)}`)
-    .then((response) => {
-      //   console.log(response.data)
-      return { data: response.data, status: response.status }
-    }).catch((error) => {
-      //  console.log(error.response)
-      return { data: error.response.data, status: error.response.status };
-    })
+    try{
+      const response = await productapi.get(`/getall?page=${encodeURIComponent(page)}&size=${encodeURIComponent(size)}&name=${encodeURIComponent(keyword)}`)
+      return response
+    }
+    catch(error){
+      return error;
+    }
 };
 export const getMostSoldProductService = async (page, size) => {
 
- return await productapi
-   .get(`/getall?page=${encodeURIComponent(page)}&size=${encodeURIComponent(size)}`)
-   .then((response) => {
-     // console.log(response.data)
-     return { data: response.data, status: response.status }
-   }).catch((error) => {
-     console.log(error.response)
-     return error;
-   })
+   try{
+    const response = await productapi.get(`/getall?page=${encodeURIComponent(page)}&size=${encodeURIComponent(size)}`)
+    return response
+  }
+  catch(error){
+    return error.response;
+  }
 };
 
 export const changeProductVisibilityService = async (id) => {
+  try{
+    const response = await productapi.put(`/visibility?id=${encodeURIComponent(id)}`)
+    return response
+  }
+  catch(error){
+    return error.response;
+  }
 
-  return await productapi
-    .put(`/visibility?id=${encodeURIComponent(id)}`)
-    .then((response) => {
-      // console.log(response.data)
-      return { data: response.data, status: response.status }
-    }).catch((error) => {
-      console.log(error.response)
-      return error;
-    })
  };

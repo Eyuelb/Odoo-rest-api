@@ -10,7 +10,6 @@ export const theme = ()=>{
       fontSize:"0.875rem"
     },
     fonts: {
-       body: 'Helvetica, sans-serif',
      // "html":,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",
       "body": 'Helvetica, sans-serif',
     },

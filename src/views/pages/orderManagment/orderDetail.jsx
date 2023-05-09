@@ -249,7 +249,7 @@ export const OrderDetail = () => {
                                                 <Table TableConfiguration={TableConfiguration} data={!!(userorders) && Array.isArray(userorders) && userorders.length > 0 ? userorders : []} tableLoading={isGetUserOrderLoading} />
                                             </div>
                                         </div>
-                                    </div> : <OrderPageUserInfoLoading />}
+                                    </div> : <Table TableConfiguration={TableConfiguration} data={!!(userorders) && Array.isArray(userorders) && userorders.length > 0 ? userorders : []} tableLoading={isGetUserOrderLoading} />}
                             </div>
 
                             <div

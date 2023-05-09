@@ -53,7 +53,7 @@ export const HeadNav = () => {
                     sx={{
                         display: "flex",
                         alignItems: "center",
-                        marginLeft: headnavStick && openSidenav ? openMiniSidenav ? '76px' : '276px' : "0px"
+                        marginLeft: headnavStick && openSidenav ? openMiniSidenav ? '48px' : '226px' : "0px"
 
                         // "@media (min-width: 1280px)": {
                         //     marginLeft: headnavStick?openSidenav?"18rem":"1rem":"0px",

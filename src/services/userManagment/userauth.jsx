@@ -1,60 +1,54 @@
 import { authapi,setUser,removeUser } from "@services";
 
-export const registerService = (fullName,username,gender,phoneNo,email,password) => {
-  return authapi.post("/createUserAccount", {
-    fullName: fullName,
-    userName: username,
-    phoneNo: phoneNo,
-    password: password
-  });
+export const registerService = async (fullName,username,gender,phoneNo,email,password) => {
+  try{
+    const response = await authapi.post("/createUserAccount", {
+      fullName: fullName,
+      userName: username,
+      phoneNo: phoneNo,
+      password: password
+    })
+    return response
+  }
+  catch(error){
+    return error.response;
+  }
 };
 
-export const loginService = (userName, loginCode) => {
-  return authapi
-    .post("/login", {
-      userName,
-      loginCode
-    })
-    .then((response) => {
-      if (response.data.refresh_token) {
-        setUser(response.data);
-      }
-      return response.data;
-    }).catch((error) => {
-      return error;
-    })
-};
+export const loginService = async (userName, loginCode) => {
 
-
-export const logout = () => {
-  return authapi
-  .post(`/logout?userId=${encodeURIComponent(2)}`)
-  .then((response) => {
-
-  //  console.log({ data: response.data, status: response.status })
-    if(response.status === 200){
-      removeUser();
+    try{
+      const response = await authapi.post("/login", {
+        userName,
+        loginCode
+      })
+      return response
     }
-    return { data: response.data, status: response.status }
-  }).catch((error) => {
-
-    //console.log(error.response)
-    return { data: error.response.data, status: error.response.status };
-  })
-  
+    catch(error){
+      return error;
+    }
 };
-export const getUserInfofindByIdService = (id) => {
-  return authapi
-  .get(`/findById?id=${encodeURIComponent(id)}`)
-  .then((response) => {
 
-   // console.log({ data: response.data, status: response.status })
-    return { data: response.data, status: response.status }
-  }).catch((error) => {
 
-    //console.log(error.response)
-    return { data: error.response.data, status: error.response.status };
-  })
+export const logout = async (id) => {
+  try{
+    const response = await authapi.post(`/logout?userId=${encodeURIComponent(id)}`)
+    return response
+  }
+  catch(error){
+    return error.response;
+  }
+
+};
+export const getUserInfofindByIdService = async (id) => {
+
+  try{
+    const response = await authapi.get(`/findById?id=${encodeURIComponent(id)}`)
+    return response
+  }
+  catch(error){
+    return error.response;
+  }
   
 };
 export const getCurrentUser = () => {

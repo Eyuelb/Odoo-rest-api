@@ -70,7 +70,7 @@ export const productManagerStore = create((set, get) => ({
         );
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       set(
         produce((draft) => {
           draft.isGetAllProductLoading = false;
@@ -95,7 +95,7 @@ export const productManagerStore = create((set, get) => ({
         draft.getOneProductSuccess = true;
       }));
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       set(produce((draft) => {
         draft.isGetOneProductLoading = false;
         draft.getOneProductErrorMessage = "Failed to feched product.";
@@ -115,7 +115,7 @@ export const productManagerStore = create((set, get) => ({
         draft.changeProductvisibilitySuccess = true;
       }));
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       set(produce((draft) => {
         draft.isGetOneProductLoading = false;
         draft.changeProductvisibilityErrorMessage = "Failed to change product visibility.";

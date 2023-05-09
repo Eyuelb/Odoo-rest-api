@@ -1,39 +1,34 @@
 import { orderapi} from "@services";
 export const getAllOrdersService = async () => {
+  try{
+    const response = await orderapi.get(`/listAll`)
+    return response
+  }
+  catch(error){
+    return error.response;
+  }
 
-  return await orderapi
-    .get(`/listAll`)
-    .then((response) => {
-   //   console.log(response.data)
-        return {data:response.data,status:response.status}
-    }).catch((error) =>{
-      //console.log(error.response.status)
-      return {data:error.response.data,status:error.response.status};
-    })
 };
 
 export const getOneOrderService = async (id) => {
-  return await orderapi
-    .get(`/findById?id=${encodeURIComponent(id)}`)
-    .then((response) => {
-      //   console.log(response.data)
-      return { data: response.data, status: response.status }
-    }).catch((error) => {
-      //  console.log(error.response)
-      return { data: error.response.data, status: error.response.status };
-    })
+  try{
+    const response = await orderapi.get(`/findById?id=${encodeURIComponent(id)}`)
+    return response
+  }
+  catch(error){
+    return error.response;
+  }
+
 };
 export const getOrderByUserIdService = async (id) => {
-  return await orderapi
-  //.get(`/findByuserId?userId=${encodeURIComponent(2)}`)
-  .get(`/findByuserId?userId=${encodeURIComponent(id)}`)
-    .then((response) => {
-   //   console.log(response.data)
-        return {data:response.data,status:response.status}
-    }).catch((error) =>{
-      //console.log(error.response.status)
-      return {data:error.response.data,status:error.response.status};
-    })
+  try{
+    const response = await orderapi.get(`/findByuserId?userId=${encodeURIComponent(id)}`)
+    return response
+  }
+  catch(error){
+    return error.response;
+  }
+
 };
 export const searchOrderService = async (page,size,keyword) => {
   return await orderapi
@@ -45,6 +40,20 @@ export const searchOrderService = async (page,size,keyword) => {
       //  console.log(error.response)
       return { data: error.response.data, status: error.response.status };
     })
+
+
 };
 
 
+export const updateOrderStatusService = async (orderId,status) => {
+  try{
+    const response = await orderapi.put(`/statusupdate`, {
+      orderId: orderId,
+      status: status,
+    })
+    return response
+  }
+  catch(error){
+    return error.response;
+  }
+};

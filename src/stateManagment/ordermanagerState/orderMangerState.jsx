@@ -1,11 +1,17 @@
 import React,{useEffect,useState} from 'react';
 import { create } from 'zustand';
 import {produce} from "immer";
-import { getAllOrdersService,getOneOrderService,getOrderByUserIdService,getUserInfofindByIdService } from "@services";
+import { 
+  getAllOrdersService,
+  getOneOrderService,
+  getOrderByUserIdService,
+  getUserInfofindByIdService,
+  updateOrderStatusService 
+} from "@services";
+import { toast,ToastContainer } from 'react-toastify'; // then this
 
 export const orderManagerStore = create((set, get) => ({
   orders: '',
-  singleorder: [],
   orderContainer:[],
   totalItems:0,
   totalPages:0,
@@ -13,24 +19,35 @@ export const orderManagerStore = create((set, get) => ({
   getAllOrdersSuccess: false,
   getAllOrdersErrorMessage: "",
   getAllOrdersError: false,
+
+  singleorder: [],
   getOneOrderSuccessMessage: "",
   getOneOrderSuccess: false,
   getOneOrderErrorMessage: "",
   getOneOrderError: false,
+
   userorder: [],
   getUserOrderSuccessMessage: "",
   getUserOrderSuccess: false,
   getUserOrderErrorMessage: "",
   getUserOrderError: false,
+
   userInfo: [],
   getUserInfoSuccessMessage: "",
   getUserInforSuccess: false,
   getUserInfoErrorMessage: "",
   getUserInfoError: false,
+
+  updateOrderStatusSuccessMessage: "",
+  updateOrderStatusSuccess: false,
+  updateOrderStatusErrorMessage: "",
+  updateOrderStatusError: false,
+
   isGetAllOrderLoading: false,
   isGetOneOrderLoading: false,
   isGetUserOrderLoading: false,
   isGetUserInfoLoading: false,
+  isUpdateOrderStatusLoading: false,
   getAllOrdersRequest: async () => {
     set(
       produce((draft) => {
@@ -85,7 +102,7 @@ export const orderManagerStore = create((set, get) => ({
     //     );
     //   }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       set(
         produce((draft) => {
           draft.isGetAllOrderLoading = false;
@@ -104,6 +121,14 @@ export const orderManagerStore = create((set, get) => ({
     }));
     try {
       const response = await getOneOrderService(id);
+      if (response.status !== 200) {
+        // return Error('Bad Gateway: Server acting as a gateway received an invalid response');
+        set(produce((draft) => {
+          draft.isGetOneOrderLoading = false;
+          draft.getOneOrderErrorMessage = "Failed to feched order.";
+          draft.getOneOrderError = true;
+       }));
+       }
       set(produce((draft) => {
         draft.isGetOneOrderLoading = false;
         draft.singleorder = response.data;
@@ -111,6 +136,14 @@ export const orderManagerStore = create((set, get) => ({
         draft.getOneOrderSuccess = true;
       }));
       const response2 = await getUserInfofindByIdService(response.data.userId);
+      if (response2.status !== 200) {
+       // return Error('Bad Gateway: Server acting as a gateway received an invalid response');
+       set(produce((draft) => {
+        draft.isGetUserInfoLoading = false;
+        draft.getUserInfoErrorMessage = "Failed to feched orderd user info.";
+        draft.getUserInfoError = true;
+      }));
+      }
       set(produce((draft) => {
         draft.isGetUserInfoLoading = false;
         draft.userInfo = response2.data;
@@ -119,6 +152,14 @@ export const orderManagerStore = create((set, get) => ({
       }));
 
       const response3 = await getOrderByUserIdService(response.data.userId);
+      if (response3.status !== 200) {
+        // return Error('Bad Gateway: Server acting as a gateway received an invalid response');
+        set(produce((draft) => {
+         draft.isGetUserOrderLoading = false;
+         draft.getUserOrderErrorMessage = "Failed to feched user order.";
+         draft.getUserOrderError = true;
+       }));
+       }
       set(produce((draft) => {
         draft.isGetUserOrderLoading = false;
         draft.userorders = response3.data;
@@ -127,7 +168,7 @@ export const orderManagerStore = create((set, get) => ({
       }));
 
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       set(produce((draft) => {
         draft.isGetOneOrderLoading = false;
         draft.getOneOrderErrorMessage = "Failed to feched order.";
@@ -136,7 +177,7 @@ export const orderManagerStore = create((set, get) => ({
         draft.getUserInfoErrorMessage = "Failed to feched orderd user info.";
         draft.getUserInfoError = true;
         draft.isGetUserOrderLoading = false;
-        draft.getUserOrderErrorMessage = "Failed to feched order.";
+        draft.getUserOrderErrorMessage = "Failed to feched user order.";
         draft.getUserOrderError = true;
       }));
     }
@@ -154,7 +195,7 @@ export const orderManagerStore = create((set, get) => ({
         draft.getUserOrderSuccess = true;
       }));
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       set(produce((draft) => {
         draft.isGetUserOrderLoading = false;
         draft.getUserOrderErrorMessage = "Failed to feched order.";
@@ -162,7 +203,29 @@ export const orderManagerStore = create((set, get) => ({
       }));
     }
   },
+  updateOrderStatusRequest: async (id,status) => {
+    set( ((draft) => {
+      draft.isUpdateOrderStatusLoading = true;
+    }));
+    try {
+      const response = await updateOrderStatusService(id,status);
+      set(produce((draft) => {
+        draft.isUpdateOrderStatusLoading = false;
+        draft.userorders = response.data;
+        draft.updateOrderStatusSuccessMessage = "Order update successfully.";
+        draft.updateOrderStatusSuccess = true;
+      }));
+    } catch (error) {
+      //console.log(error);
+      set(produce((draft) => {
+        draft.isUpdateOrderStatusLoading = false;
+        draft.updateOrderStatusErrorMessage = "Failed to update order.";
+        draft.updateOrderStatusError = true;
+      }));
+    }
+  },
   orderManagerStateCleaner: () => {
+
     set(produce((draft) => {
       draft.getAllOrdersSuccessMessage = "";
       draft.getAllOrdersSuccess = false;
@@ -172,10 +235,26 @@ export const orderManagerStore = create((set, get) => ({
       draft.getOneOrderSuccess = false;
       draft.getOneOrderErrorMessage = "";
       draft.getOneOrderError = false;
+      draft.getUserOrderSuccessMessage = "";
+      draft.getUserOrderSuccess = false;
+      draft.getUserOrderErrorMessage = "";
+      draft.getUserOrderError = false;
+      draft.getUserInfoSuccessMessage = "";
+      draft.getUserInforSuccess = false;
+      draft.getUserInfoErrorMessage = "";
+      draft.getUserInfoError = false;
+      draft.updateOrderStatusSuccessMessage = "";
+      draft.updateOrderStatusSuccess = false;
+      draft.updateOrderStatusErrorMessage = "";
+      draft.updateOrderStatusError = false;
       draft.isGetAllOrderLoading = false;
       draft.isGetOneOrderLoading = false;
+      draft.isGetUserOrderLoading = false;
+      draft.isGetUserInfoLoading = false;
+      draft.isUpdateOrderStatusLoading = false;
 
     }))
+  //  console.log(get())
   },
 })) 
 
@@ -185,15 +264,29 @@ export const orderManagerStore = create((set, get) => ({
 export const useOrders = () => {
   const orders = orderManagerStore((state) => state.orders);
   const isGetAllOrderLoading = orderManagerStore((state) => state.isGetAllOrderLoading);
-  const getAllOrdersRequest = orderManagerStore(
-    (state) => state.getAllOrdersRequest
-  );
-
+  const getAllOrdersRequest = orderManagerStore((state) => state.getAllOrdersRequest)
+  const getAllOrdersError = orderManagerStore((state) => state.getAllOrdersError);
+  const getAllOrdersErrorMessage = orderManagerStore((state) => state.getAllOrdersErrorMessage);
+  const orderManagerStateCleaner = orderManagerStore((state) => state.orderManagerStateCleaner);
 
   useEffect(() => {
     getAllOrdersRequest();   
+  }, []);
 
-  }, [getAllOrdersRequest]);
+  useEffect(() => {
+    if (getAllOrdersError) {
+			toast.error(getAllOrdersErrorMessage, {
+				// Set to 5sec
+				position: toast.POSITION.BOTTOM_RIGHT, autoClose: 5000
+			})
+      orderManagerStateCleaner()
+		}
+
+    return () => {
+
+    }
+
+  }, [getAllOrdersError]);
 
   return { orders,isGetAllOrderLoading };
 };
@@ -207,10 +300,50 @@ export const useSingleOrder = (id) => {
   const isGetUserInfoLoading = orderManagerStore((state) => state.isGetUserInfoLoading);
   const userorders = orderManagerStore(state => state.userorders);
   const isGetUserOrderLoading = orderManagerStore((state) => state.isGetUserOrderLoading);
+
+
+
+
+  const getOneOrderError = orderManagerStore((state) => state.getOneOrderError);
+  const getOneOrderErrorMessage = orderManagerStore((state) => state.getOneOrderErrorMessage);
+  const getUserOrderError = orderManagerStore((state) => state.getUserOrderError);
+  const getUserOrderErrorMessage = orderManagerStore((state) => state.getUserOrderErrorMessage);
+  const getUserInfoError = orderManagerStore((state) => state.getUserInfoError);
+  const getUserInfoErrorMessage = orderManagerStore((state) => state.getUserInfoErrorMessage);
+  const orderManagerStateCleaner = orderManagerStore((state) => state.orderManagerStateCleaner);
+
+
   useEffect(() => {
     getOneOrdersRequest(id);
     return () => {}
   }, []);
+  useEffect(() => {
+    if (getOneOrderError) {
+			toast.error(getOneOrderErrorMessage, {
+				// Set to 5sec
+				position: toast.POSITION.BOTTOM_RIGHT, autoClose: 5000
+			})
+      orderManagerStateCleaner()
+		}
+    if (getUserOrderError) {
+			toast.error(getUserOrderErrorMessage, {
+				// Set to 5sec
+				position: toast.POSITION.BOTTOM_RIGHT, autoClose: 5000
+			})
+      orderManagerStateCleaner()
+		}
+    if (getUserInfoError) {
+			toast.error(getUserInfoErrorMessage, {
+				// Set to 5sec
+				position: toast.POSITION.BOTTOM_RIGHT, autoClose: 5000
+			})
+      orderManagerStateCleaner()
+		}
+    return () => {
+
+    }
+
+  }, [getOneOrderError,getUserOrderError,getUserInfoError]);
   //console.log(userInfo)
   return {
     singleorder,
@@ -233,3 +366,18 @@ export const useSingleOrder = (id) => {
 
 //   return {userorders,isGetUserOrderLoading};
 // }
+
+export const useUpdateOrderStatus = () => {
+  const isUpdateOrderStatusLoading = orderManagerStore((state) => state.isUpdateOrderStatusLoading);
+  const updateOrderStatusRequest = orderManagerStore(
+    (state) => state.updateOrderStatusRequest
+  );
+
+
+  useEffect(() => {
+    updateOrderStatusRequest();   
+
+  }, [updateOrderStatusRequest]);
+
+  return { isUpdateOrderStatusLoading };
+};
