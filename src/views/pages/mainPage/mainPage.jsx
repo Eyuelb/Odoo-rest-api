@@ -16,7 +16,7 @@ export const MainPage = ({ chilrenpages }) => {
         <div className="min-h-screen ">
              <aside
             sx={{
-                width: openSidenav ? openMiniSidenav ? '76px' : '276px' : "0px",
+                width: openSidenav ? openMiniSidenav ? '48px' : '226px' : "0px",
                 transition: 'margin-left 0.2s ease-in-out',
                 backdropFilter: openSidenav ? 'blur(10px)' : 'none', // add backdrop filter when sidenav is open
                 background:"primary",
@@ -35,7 +35,7 @@ export const MainPage = ({ chilrenpages }) => {
 
             <div
                 sx={{
-                    marginLeft: openSidenav ? openMiniSidenav ? '76px' : '276px' : "0px",
+                    marginLeft: openSidenav ? openMiniSidenav ? '48px' : '226px' : "0px",
                    // width: openSidenav ? openMiniSidenav ? '90%' : '80%' : "100%",
                     //minWidth:"400px",
                     transition: 'margin-left 0.3s ease-in-out, width 0.3s ease-in-out',

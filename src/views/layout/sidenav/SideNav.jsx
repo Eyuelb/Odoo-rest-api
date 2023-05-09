@@ -62,7 +62,7 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                     src={brandImg} />
                             </Link>
 
-                            <div className="w-full px-2">
+                            <div className="w-full ">
 
                                 {
 
@@ -92,20 +92,20 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                                                         display: 'flex',
                                                                         alignItems: 'center',
                                                                         justifyContent: 'center',
-                                                                        width: "100%",
-                                                                        height: "12",
+                                                                        width: "auto",
+
+                                                                      //  height: "12px",
                                                                         padding: "0px 3px",
                                                                         marginTop: "3px",
                                                                         borderTopLeftRadius: "3px",
                                                                         borderTopRightRadius: "3px",
-                                                                        borderRadius: "10px",
+                                                                       // borderRadius: "10px",
                                                                         bg: isActive && 'navHover',
                                                                         fontWeight:"500",
                                                                         color: isActive && 'navIconHover',
                                                                         '&:hover': {
                                                                             bg: 'navHover',
                                                                             color: 'navIconHover',
-                                                                            borderRadius: "10px",
                                                                         }
                                                                     }}
                                                                 >
@@ -114,7 +114,7 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                                                        {icon}
                                                                     </span>
                                                                         {/* <span className="mr-1">{icon}</span> */}
-                                                                        <h2
+                                                                        <p
                                                                             style={{
                                                                                 transitionDelay: `${key + 3}00ms`,
                                                                             }}
@@ -122,7 +122,7 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                                                                 }`}
                                                                         >
                                                                             {name}
-                                                                        </h2>
+                                                                        </p>
                                                                         {/* <span className="ml-2 text-sm font-medium">{name}</span> */}
                                                                     </div>
                                                                 </div>)}

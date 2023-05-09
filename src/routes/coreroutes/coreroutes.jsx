@@ -28,7 +28,7 @@ import {
  import { RXIcon } from '@components';
 
 const icon = {
-	className: "w-6 h-6  text-inherit",
+	className: "w-5 h-5  text-inherit",
 };
 export const CoreRoutes = [
 	{

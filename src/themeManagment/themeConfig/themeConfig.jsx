@@ -6,19 +6,19 @@ export const theme = ()=>{
 
 
   return  { 
+    body:{
+      fontSize:"0.875rem"
+    },
     fonts: {
-      "html":"Söhne,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",
-      "sans": "ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",
-      "serif": "ui-serif,Georgia,Cambria,Times New Roman,Times,serif",
-      "mono": "ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace",
-      "body": "ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",
-      "heading": "inherit",
-      "monospace": "ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace"
+       body: 'Helvetica, sans-serif',
+      "html":"ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",
+      "body": 'Helvetica, sans-serif',
     },
     "fontSizes": {
+      "body":"0.875rem",
       "xs": "0.75rem",
       "sm": "0.875rem",
-      "default": "1rem",
+      "default": "0.875rem",
       "lg": "1.125rem",
       "xl": "1.25rem",
       "2xl": "1.5rem",
