@@ -67,8 +67,8 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                 {
 
                                     routes.map(({ layout, title, pages, showInSidenav }, key) => (
-                                        showInSidenav && <ul key={key}
-                                            className="flex flex-col items-center w-full mt-3 border-t"
+                                        showInSidenav && 
+                                        <ul key={key} className="flex flex-col items-center w-full border-t"
                                             sx={{
                                                 borderColor: "secondary"
                                             }}
@@ -81,7 +81,7 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                         </li>
 
                                     )} */}
-                                            <div className="mb-3"></div>
+                                            {/* <div className="mb-1"></div> */}
                                             {pages.map(({ icon, name, path, sidenavlinked, pageAccessPrivilege }, key) => (
                                                 (sidenavlinked === true) && userAccessLevel.some(level => pageAccessPrivilege.includes(level)) ?
                                                     <li key={key} className="w-full">
@@ -93,15 +93,12 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                                                         alignItems: 'center',
                                                                         justifyContent: 'center',
                                                                         width: "auto",
-
-                                                                      //  height: "12px",
+                                                                        fontSize:"0.875rem",
+                                                                        fontWeight: "500",
+                                                                        lineHeight: "1.5",
                                                                         padding: "0px 3px",
-                                                                        marginTop: "3px",
-                                                                        borderTopLeftRadius: "3px",
-                                                                        borderTopRightRadius: "3px",
-                                                                       // borderRadius: "10px",
+                                                                      //  marginTop: "3px",
                                                                         bg: isActive && 'navHover',
-                                                                        fontWeight:"500",
                                                                         color: isActive && 'navIconHover',
                                                                         '&:hover': {
                                                                             bg: 'navHover',
