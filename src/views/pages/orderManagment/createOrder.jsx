@@ -10,7 +10,7 @@ import { FaRegMoneyBillAlt } from 'react-icons/fa'
 import { TbTrash } from 'react-icons/tb'
 import { FiPlusCircle, FiMinusCircle } from 'react-icons/fi'
 import { useReactToPrint } from 'react-to-print';
-import { CartSingleProduct, CartSingleProductLoadingSkeleton } from "@components"
+import { CartSingleProduct, CartSingleProductLoadingSkeleton,OTCIcon } from "@components"
 
 import ReactPaginate from 'react-paginate';
 export const CreateOrder = () => {
@@ -67,8 +67,7 @@ export const CreateOrder = () => {
         {/* Left side */}
         <div className="col-span-1 mb:col-span-1 tb:col-span-2 sm:col-span-2 md:col-span-4 h-full px-2">
 
-          <div className='w-full p-4'>
-          <div className='w-full p-4 shadow-lg'
+          <div className='w-full mb-8 p-4 shadow-lg'
           sx={{
             borderRadius: "13px",
             background:"card"
@@ -79,11 +78,21 @@ export const CreateOrder = () => {
           {/* categories  */}
           <div className='flex pt-5 gap-3 overflow-auto categories'>
             <button className="card rounded-lg p-3 px-4 ">
-              <MdRestaurantMenu className='h-4 mx-auto' />
+              <OTCIcon  {...{ className: " h-5 w-5 mr-1" }} />
               <p className=' font-bold text-sm'>OTC</p>
             </button>
           </div>
           </div>
+
+          <div className='space-y-6 '
+          sx={{
+            width: "100%",
+            background: "card",
+            padding:"10px",
+            borderRadius: "13px",
+
+            }}
+          >
           <div className='flex items-center justify-end w-full mt-3 '>
             <div className="md:w-56 flex items-center flex-row"
               sx={{
@@ -110,7 +119,10 @@ export const CreateOrder = () => {
                   width: "4rem",
                   border: "1px solid",
                   borderRadius: "4px",
-                  borderColor: "secondary"
+                  borderColor: "secondary",
+                  '&:hover': {
+                    borderColor: 'primary',
+                  }
                 }}
 
                 className='h-10 w-10 shadow-lg'
@@ -127,7 +139,10 @@ export const CreateOrder = () => {
               </IconButton>
             </div>
           </div>
-          </div>
+
+
+
+
 
           {isGetAllProductLoading ? (
             <div className=" animated fadeIn faster  flex justify-center items-center flex-col py-5">
@@ -144,9 +159,10 @@ export const CreateOrder = () => {
               </div>
             </div>
           )
-            :
+            :!!(products) && Array.isArray(products) && products.length > 0 ?
             (
-              <div className=" animated fadeIn faster  flex justify-center items-center flex-col py-5">
+              <div className=" animated fadeIn faster  flex justify-center items-center flex-col py-5 "
+              >
                 <div className="container z-10">
                   <div className="grid mt-8  gap-2 grid-cols-1 mb:grid-cols-1 tb:grid-cols-2 sm:grid-cols-3  md:grid-cols-4 lg:grid-cols-5">
                     {products.map((product, key) =>
@@ -179,12 +195,39 @@ export const CreateOrder = () => {
 
                 />
               </div>
-            )}
+            ):
+            <div className="p-2 w-full "
+            sx={{
+                
+                borderRadius: "13px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent:"center"
 
+            }}>
+            <div
+                sx={{
+                    borderRadius: "13px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent:"center",
+                    width:"80%",
+                    border:"1px"
+
+                }}>
+                <p>
+                    No products found!
+                </p>
+            </div>
+
+
+        </div>
+          }
+          </div>
         </div>
 
         {/* Right Side */}
-        <div className="col-span-1  sm:col-span-1 md:col-span-1 mt-7">
+        <div className="col-span-1  sm:col-span-1 md:col-span-1 mt-3 mb:mt-40 tb:mt-40">
           <aside className="col-span-6 rounded-lg shadow-lg min-h-max px-3 py-4"
           sx={{
             // boxShadow: t => `0px 1px 4px 0px ${t.colors.text}`,

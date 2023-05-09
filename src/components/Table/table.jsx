@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 import React, { useState, useMemo, useEffect } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
-import { Button, Input} from "theme-ui";
+import { Button, Input } from "theme-ui";
 
 function TableSearch({ searchText, onSearch }) {
     const handleChange = (event) => {
@@ -75,7 +75,7 @@ function TableFiltering({ columns, onFilter }) {
 
     return (
         <div>
-            {columns.map((column,key) => (
+            {columns.map((column, key) => (
                 <div key={key}>
                     <label htmlFor={`table-filter-${column.key}`}>{column.headerTitle}:</label>
                     <input
@@ -97,7 +97,7 @@ function TableSorting({ columns, sortColumn, sortOrder, onSort }) {
     return (
         <div>
             <span>Sort by:</span>
-            {columns.map((column,key) => (
+            {columns.map((column, key) => (
                 <button key={key} onClick={() => handleClick(column.key)}>
                     {column.headerTitle}
                     {sortColumn === column.key && sortOrder === 'asc' && <>&uarr;</>}
@@ -115,12 +115,12 @@ function TableHead({ columns, classData, sortColumn, sortOrder, onSort }) {
     return (
         <thead className={getClass(classData, 'thead')} sx={getSx(classData, 'thead')}>
             <tr className={getClass(classData, 'tr')} sx={getSx(classData, 'tr')}>
-                {columns.map((column,key) => (
+                {columns.map((column, key) => (
 
-                    
-                    (!!(column.headerTitle) && (typeof column.headerTitle == 'string'))?
-                     <th key={key} className={getClass(classData, 'th')} sx={getSx(classData, 'th')} onClick={() => handleClick(column.key)}>{column.headerTitle}</th>
-                    :console.log("Provide headerTitle is not string or not initialized")
+
+                    (!!(column.headerTitle) && (typeof column.headerTitle == 'string')) ?
+                        <th key={key} className={getClass(classData, 'th')} sx={getSx(classData, 'th')} onClick={() => handleClick(column.key)}>{column.headerTitle}</th>
+                        : console.log("Provide headerTitle is not string or not initialized")
                 ))}
             </tr>
         </thead>
@@ -130,92 +130,80 @@ function TableHead({ columns, classData, sortColumn, sortOrder, onSort }) {
 function TableBody({ data, columns, classData }) {
     const renderButton = (ActionName, ActionIcon, ActionIconColor, onClickHandler) => (
         <Button variant="text" className='p-2 transition duration-500 ease-in-out'
-        sx={{
+            sx={{
 
-            boxShadow: t => `0px 1px 1px 0px ${t.colors.text}`,
-            '&:hover': {
-                boxShadow: t => `0px 1px 3px 0px ${t.colors.text}`,
-            },
-        }}
-        onClick={onClickHandler}>
-          {!!ActionIcon ? <ActionIcon color={ActionIconColor} className={`${"w-4 h-4 opacity-55 drop-shadow-xl "}${'text-'+ActionIconColor}`}/>:
-          ActionName}
+                boxShadow: t => `0px 1px 1px 0px ${t.colors.text}`,
+                '&:hover': {
+                    boxShadow: t => `0px 1px 3px 0px ${t.colors.text}`,
+                },
+            }}
+            onClick={onClickHandler}>
+            {!!ActionIcon ? <ActionIcon color={ActionIconColor} className={`${"w-4 h-4 opacity-55 drop-shadow-xl "}${'text-' + ActionIconColor}`} /> :
+                ActionName}
         </Button>
-      );
-      
-      const renderTooltip = (key, content, buttonElement, direction = 'top', color = 'gray') => {
+    );
+
+    const renderTooltip = (key, content, buttonElement, direction = 'top', color = 'gray') => {
         const directionClasses = {
-          top: '-translate-y-full bottom-1',
-          bottom: 'bottom-full top-full',
-          left: '-translate-x-full right-full',
-          right: 'right-full left-full',
+            top: '-translate-y-full bottom-1',
+            bottom: 'bottom-full top-full',
+            left: '-translate-x-full right-full',
+            right: 'right-full left-full',
         };
         const directionClass = directionClasses[direction] || '-translate-y-full bottom-full';
         const colorClass = `bg-${color}-400`;
-      
+
         return (
-          <div key={key} className="relative group">
-            {buttonElement}
-            <div 
-            sx={{
-                color: t => t.colors.navIconHover,
-                
-            }}
-            className={`transition duration-500 ease-in-out opacity-0 transform scale-0 absolute z-1000 ${directionClass} -translate-x-1/2 ${colorClass} rounded-md shadow-lg py-2 px-4 group-hover:opacity-100 group-hover:scale-100`}>
-              {content}
+            <div key={key} className="relative group">
+                {buttonElement}
+                <div
+                    sx={{
+                        color: t => t.colors.navIconHover,
+
+                    }}
+                    className={`transition duration-500 ease-in-out opacity-0 transform scale-0 absolute z-1000 ${directionClass} -translate-x-1/2 ${colorClass} rounded-md shadow-lg py-2 px-4 group-hover:opacity-100 group-hover:scale-100`}>
+                    {content}
+                </div>
             </div>
-          </div>
         );
-      };
+    };
     return (
         <tbody className={getClass(classData, 'tbody')} sx={getSx(classData, 'tbody')}>
-            
+
             {data.map((row) => (
                 <tr key={row.id} className={getClass(classData, 'tr')} sx={getSx(classData, 'tr')}>
-                    {columns.map(({action,key,customTextColor,customTextReplacment},index) => (
-                         (!!(action) && (Array.isArray(action)) && (action.length > 0))? 
-                         <td key={index} className={getClass(classData, 'td')+" p-1" } sx={getSx(classData, 'td')}>
-                               {action.map(({ActionName,ActionIcon,ActionIconColor,ActionKey,ActionHandler,ActionTask},key) =>(
-                                      (!!(ActionIcon) && ActionIcon != '')?
-                                      renderTooltip(
-                                        key,
-                                        ActionName,
-                                        renderButton(ActionName, ActionIcon, ActionIconColor, () => ActionHandler(row[ActionKey],ActionTask))
-                                      )
-                                      
-                                      :<div key={key}><Button >{ActionName}</Button></div>
-                                // <div key={key}><button >{actionName}</button></div>
-                                 ))}
-                          </td>
-                              :
-                          (!!(key) && (typeof key == 'string'))?
-                          (!!(customTextColor) && (typeof customTextColor == 'object'))?
-                          <td key={index} className={getClass(classData, 'td')}  sx={getSx(classData, 'td')}>
-                            <div
-                            sx={{
-                                background:customTextColor[row[key]],
-                                borderRadius:"7px",
-                                display:"flex",
-                                alignItems:"center",
-                                justifyContent:"center",
-                                padding:"1px",
-                                width:"100px",
-                                color:"black",
-                                
-                                
-                              }}>
-                            {!!(customTextReplacment) && (typeof customTextReplacment == 'object')?customTextReplacment[row[key]]:row[key]} 
-                            </div>
-                            
-                            
-                            </td>
-                          :
-                          <td key={index} className={getClass(classData, 'td')} sx={getSx(classData, 'td')}>
-                            {!!(customTextReplacment) && (typeof customTextReplacment == 'object')?customTextReplacment[row[key]]:row[key]} 
+                    {columns.map(({ action, key, customTextHolderColor, customTextReplacment, customStyle }, index) => (
+                        (!!(action) && (Array.isArray(action)) && (action.length > 0)) ?
+                            <td key={index} className={getClass(classData, 'td') + " p-1"} sx={getSx(classData, 'td')}>
+                                {action.map(({ ActionName, ActionIcon, ActionIconColor, ActionKey, ActionHandler, ActionTask }, key) => (
+                                    (!!(ActionIcon) && ActionIcon != '') ?
+                                        renderTooltip(
+                                            key,
+                                            ActionName,
+                                            renderButton(ActionName, ActionIcon, ActionIconColor, () => ActionHandler(row[ActionKey], ActionTask))
+                                        )
 
+                                        : <div key={key}><Button >{ActionName}</Button></div>
+                                    // <div key={key}><button >{actionName}</button></div>
+                                ))}
                             </td>
-                              :
-                              ''        
+                            :
+                            (!!(key) && (typeof key == 'string')) ?
+                                (!!(customTextHolderColor) && (typeof customTextHolderColor == 'object')) ?
+                                    <td key={index} className={getClass(classData, 'td')} sx={getSx(classData, 'td')}>
+
+                                        <div sx={{ ...customStyle, background: customTextHolderColor[row[key]], }}>
+                                            {!!(customTextReplacment) && (typeof customTextReplacment == 'object') ? customTextReplacment[row[key]] : row[key]}
+                                        </div>
+
+                                    </td>
+                                    :
+                                    <td key={index} className={getClass(classData, 'td')} sx={getSx(classData, 'td')}>
+                                        {!!(customTextReplacment) && (typeof customTextReplacment == 'object') ? customTextReplacment[row[key]] : row[key]}
+
+                                    </td>
+                                :
+                                ''
                     ))
                     }
                 </tr>
@@ -225,20 +213,20 @@ function TableBody({ data, columns, classData }) {
 }
 
 
-function TableFoot({ columns,currentPage, totalPages, onPageChange, classData }) {
+function TableFoot({ columns, currentPage, totalPages, onPageChange, classData }) {
     return (
         <tfoot>
             <tr>
                 <td className="py-2" colSpan={columns.length}>
                     <div className={getClass(classData, 'tfoot')} sx={getSx(classData, 'tfoot')}>
-                    <TablePagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
+                        <TablePagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
                     </div>
                 </td>
             </tr>
         </tfoot>
     );
 }
-function TableLoading({ columns, numRows, classData  }) {
+function TableLoading({ columns, numRows, classData }) {
     const [dots, setDots] = useState('');
 
     useEffect(() => {
@@ -250,15 +238,15 @@ function TableLoading({ columns, numRows, classData  }) {
     }, []);
 
     return (
-        <table className="w-full border ">
+        <table className="w-full">
             <caption className="text-lg font-medium mb-4">Loading...</caption>
             <thead className={getClass(classData, 'thead')} sx={getSx(classData, 'thead')}>
-                
+
                 <tr className={getClass(classData, 'tr')} sx={getSx(classData, 'tr')}>
-                    {columns.map((column,key) => (
-                        (!!(column.headerTitle) && (typeof column.headerTitle == 'string'))?
-                    <th key={key} className={getClass(classData, 'th')} sx={getSx(classData, 'th')} onClick={() => handleClick(column.key)}>{column.headerTitle}</th>
-                    :console.log("Provide headerTitle is not string or not initialized")
+                    {columns.map((column, key) => (
+                        (!!(column.headerTitle) && (typeof column.headerTitle == 'string')) ?
+                            <th key={key} className={getClass(classData, 'th')} sx={getSx(classData, 'th')} onClick={() => handleClick(column.key)}>{column.headerTitle}</th>
+                            : console.log("Provide headerTitle is not string or not initialized")
                     ))}
                 </tr>
             </thead>
@@ -267,7 +255,7 @@ function TableLoading({ columns, numRows, classData  }) {
                     .fill()
                     .map((_, index) => (
                         <tr key={index} className={getClass(classData, 'tr')} sx={getSx(classData, 'tr')}>
-                            {columns.map((column,key) => (
+                            {columns.map((column, key) => (
                                 <td key={key} className={getClass(classData, 'td')} >
                                     <div className="animate-pulse h-3 rounded bg-gray-300"></div>
                                 </td>
@@ -293,26 +281,26 @@ function TablePartsHolder({ tableLoading, paginatedData, tableTittle, columns, c
 
 
     return (
-        <div className="overflow-hidden w-full h-full ">
-                <div className="px-4 py-5 sm:px-6 flex justify-between items-center">
-                    <h2 className="text-2xl font-bold">{tableTittle != null && tableTittle}</h2>
-                    <div className="w-1/3">
-                        <TableSearch searchText={searchText} onSearch={onSearch} />
-                    </div>
+        <div className="w-full h-full ">
+            <div className="px-4 py-5 sm:px-6 flex justify-between items-center">
+                <h2 className="text-2xl font-bold">{tableTittle != null && tableTittle}</h2>
+                <div className="w-1/3">
+                    <TableSearch searchText={searchText} onSearch={onSearch} />
                 </div>
-                <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div className="align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                        <div className="px-7 py-4 shadow overflow-hidden border-b sm:rounded-lg">
-                            {tableLoading ? <TableLoading columns={columns} numRows={10} classData={classData} /> :
-                                <table className={getClass(classData, 'table')}  sx={getSx(classData, 'table')}>
-                                    <TableHead columns={columns} classData={classData} sortColumn={sortColumn} sortOrder={sortOrder} onSort={onSort} />
-                                    <TableBody data={paginatedData} columns={columns} classData={classData} />
-                                    <TableFoot columns={columns} currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} classData={classData}/>
-                                </table>}
-                        </div>
+            </div>
+            <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div className="px-7 py-4 shadow overflow-hidden border-b sm:rounded-lg">
+                        {tableLoading ? <TableLoading columns={columns} numRows={10} classData={classData} /> :
+                            <table className={getClass(classData, 'table')} sx={getSx(classData, 'table')}>
+                                <TableHead columns={columns} classData={classData} sortColumn={sortColumn} sortOrder={sortOrder} onSort={onSort} />
+                                <TableBody data={paginatedData} columns={columns} classData={classData} />
+                                <TableFoot columns={columns} currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} classData={classData} />
+                            </table>}
                     </div>
                 </div>
             </div>
+        </div>
 
     );
 }
@@ -436,8 +424,8 @@ function useTable({
         clearFilters,
     };
 }
-export const Table = ({ TableConfiguration, data, tableLoading}) => {
-    const { TableTittle, ColumnsData, ClassData,defaultSortOrder,defaultSortColumn,rowsPerPage,searchKeys } = TableConfiguration[0];
+export const Table = ({ TableConfiguration, data, tableLoading }) => {
+    const { TableTittle, ColumnsData, ClassData, defaultSortOrder, defaultSortColumn, rowsPerPage, searchKeys } = TableConfiguration[0];
     const {
         sortedData,
         paginatedData,

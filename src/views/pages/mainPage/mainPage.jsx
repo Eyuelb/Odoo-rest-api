@@ -46,13 +46,14 @@ export const MainPage = ({ chilrenpages }) => {
                 <div
                     sx={{
                         transition: 'width 0.3s ease-in-out',
-                        padding: '10px 5px',
+                        padding: '10px 2px',
                         width: "100%",
-                        display:"block"
+                        display:"block",
+                        overflow:"hidden"
                     }}
                 >
                     <div
-                    className="shadow-2xl"
+                   // className="shadow-2xl"
                     sx={{
                         width: '100%',
                         height: '100%',
@@ -60,7 +61,7 @@ export const MainPage = ({ chilrenpages }) => {
                         backdropFilter: 'blur(8px)',
                        // boxShadow: t => `0px 1px 3px 0px ${t.colors.text}`,
                         display: "block",
-                        padding: '15px 15px',
+                        padding: '15px 8px',
                         background:"primary",
 
                     }}

@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
 
-
+import { MedicalDrugPharmacyPillIcon } from "@components"
 
 
 // export const SingleProduct = ({ props }) => {
@@ -76,14 +76,14 @@
 //         </div>
 //     )
 // }
-export const SingleProduct = ({ props, addToCart ,action }) => {
+export const SingleProduct = ({ props, addToCart, action }) => {
 
     const { id, name, imageMid, listPrice, productPreviousPrice, productQuantity, visibility } = props
 
     return (
         <div className="flex flex-col ">
             <div
-                
+
                 sx={{
                     borderRadius: '13px',
                     boxShadow: t => `0px 1px 4px 0px ${t.colors.text}`,
@@ -92,31 +92,35 @@ export const SingleProduct = ({ props, addToCart ,action }) => {
                     <div className="relative w-full lg:mb-0 mb-3">
                         <div className="absolute flex flex-col top-0 right-0 p-3">
                             <button className="transition ease-in duration-300 rounded-full flex flex-row space-x-4 " disabled>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                            {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500" viewBox="0 0 20 20" fill="#ff2d55" >
                                     <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-                                </svg>
+                                </svg> */}
                             </button>
                         </div>
-                        <div className='w-full h-full flex flex-row space-x-4  p-1'>
+                        <div className='w-full h-full flex flex-row items-center justify-center space-x-4  p-1'>
                             <div
                                 sx={{
-                                    width: "100%",
-                                    height: "120px",
+                                    width: "90px",
+                                    height: "90px",
                                     borderRadius: '13px',
                                     display: "flex",
                                     alignItems: "center",
-                                    justifyContent: "center"
+                                    justifyContent: "center",
+                                    padding: "3px"
+
                                 }}
                                 className="rounded-2xl "
                             >
-                                <img
+                                <MedicalDrugPharmacyPillIcon  {...{ className: "h-full w-full" }} />
+
+                                {/* <img
                                     sx={{
                                         width: "50%"
                                     }}
                                     src="/images/Che_Logo.png"
                                     alt="Just a flower"
                                     className=" object-fill rounded-2xl"
-                                />
+                                /> */}
                             </div>
                         </div>
 
@@ -124,8 +128,7 @@ export const SingleProduct = ({ props, addToCart ,action }) => {
                     <div className="flex-auto justify-evenly p-2">
                         <div className="flex flex-wrap ">
                             <div className="w-full flex-none text-sm flex items-center space-y-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-red-500 mr-1"
-                                    viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500" viewBox="0 0 20 20" fill="#ff2d55" >
                                     <path
                                         d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                 </svg>
@@ -177,10 +180,10 @@ export const SingleProduct = ({ props, addToCart ,action }) => {
                             <button className="transition ease-in duration-300 inline-flex items-centertext-sm font-medium mb-2 md:mb-0 px-5 py-2 hover:shadow-lg tracking-wider  "
                                 sx={{
                                     bg: visibility == null ? "red" : "green",
-                                    color: "navIcon",
+                                    color: "#e0e0e0",
                                     borderRadius: "10px",
                                     '&:hover': {
-                                        color: 'navIconHover',
+                                        background: visibility == null ? "#a70000" : "#005200",
 
                                     }
                                 }}
@@ -212,31 +215,35 @@ export const CartSingleProduct = ({ props, addToCart }) => {
                     <div className="relative w-full lg:mb-0 mb-3">
                         <div className="absolute flex flex-col top-0 right-0 p-3">
                             <button className="transition ease-in duration-300 rounded-full flex flex-row space-x-4 " disabled>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500" viewBox="0 0 20 20" fill="#ff2d55" >
                                     <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                                 </svg>
                             </button>
                         </div>
-                        <div className='w-full h-full flex flex-row space-x-4  p-1'>
+                        <div className='w-full h-full flex  items-center justify-center flex-row space-x-4  p-1'>
                             <div
                                 sx={{
-                                    width: "100%",
-                                    height: "120px",
+                                    width: "90px",
+                                    height: "90px",
                                     borderRadius: '13px',
                                     display: "flex",
                                     alignItems: "center",
-                                    justifyContent: "center"
+                                    justifyContent: "center",
+                                    padding: "3px"
+
                                 }}
                                 className="rounded-2xl "
                             >
-                                <img
+                                <MedicalDrugPharmacyPillIcon  {...{ className: "h-full w-full" }} />
+
+                                {/* <img
                                     sx={{
                                         width: "50%"
                                     }}
                                     src="/images/Che_Logo.png"
                                     alt="Just a flower"
                                     className=" object-fill rounded-2xl"
-                                />
+                                /> */}
                             </div>
                         </div>
 
@@ -296,15 +303,15 @@ export const CartSingleProduct = ({ props, addToCart }) => {
 
                             <button className="transition ease-in duration-300 inline-flex items-centertext-sm font-medium mb-2 md:mb-0 px-5 py-2 hover:shadow-lg tracking-wider  "
                                 sx={{
-                                    bg: "#12e112",
-                                    color: "navIcon",
+                                    bg: "#03a503",
+                                    color: "#e0e0e0",
                                     borderRadius: "10px",
                                     '&:hover': {
-                                        color: 'navIconHover',
+                                        background:"#005200",
 
                                     }
                                 }}
-                                onClick={(() => addToCart(id,name,1,listPrice))}
+                                onClick={(() => addToCart(id, name, 1, listPrice))}
 
 
                             >

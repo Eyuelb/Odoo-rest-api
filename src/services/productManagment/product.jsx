@@ -19,15 +19,26 @@ export const getAllProductService = async (page, size,keyword) => {
 };
 
 export const getOneProductService = async (id) => {
-  return await productapi
-    .get(`/findById?id=${encodeURIComponent(id)}`)
-    .then((response) => {
-      //   console.log(response.data)
-      return { data: response.data, status: response.status }
-    }).catch((error) => {
-      //  console.log(error.response)
-      return { data: error.response.data, status: error.response.status };
-    })
+  
+
+  try{
+    const response = await productapi.get(`/findById?id=${encodeURIComponent(id)}`)
+    return response
+  }
+  catch(error){
+    return error;
+  }
+
+
+  // return await productapi
+  //   .get(`/findById?id=${encodeURIComponent(id)}`)
+  //   .then((response) => {
+  //     //   console.log(response.data)
+  //     return { data: response.data, status: response.status }
+  //   }).catch((error) => {
+  //     //  console.log(error.response)
+  //     return { data: error.response.data, status: error.response.status };
+  //   })
 };
 export const searchProductService = async (page,size,keyword) => {
   return await productapi

@@ -4,7 +4,7 @@ import { useState, Fragment } from 'react';
 import { IconButton, Input } from 'theme-ui';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import ReactPaginate from 'react-paginate';
-import { useProducts,useChangeProductVisibilityRequest } from '@stateManagment';
+import { useProducts, useChangeProductVisibilityRequest } from '@stateManagment';
 import { SingleProduct, SingleProductLoadingSkeleton } from "@components"
 
 
@@ -28,14 +28,21 @@ export const ManageProducts = () => {
         console.log("clicked")
     };
     return (
-        <div>
+        <div className='shadow-lg'
+        sx={{
+            width: "100%",
+            height: "100%",
+            background: "card",
+            padding:"10px",
+            borderRadius: "13px",
+
+            }}>
             <div
-                className='flex items-center justify-end m'
+                className='flex items-center justify-end'
                 sx={{
                     width: "100%",
                     height: "100%",
-                    // margin:"25px"
-
+                    padding:"10px"
 
                 }}
             >
@@ -93,6 +100,7 @@ export const ManageProducts = () => {
                     </div>
                 </div>
             ) :
+            !!(products) && Array.isArray(products) && products.length > 0 ?
                 <div className=" animated fadeIn faster  flex justify-center items-center flex-col py-5">
                     <div className="container z-10">
                         <div className="grid mt-8 gap-3 grid-cols-1 mb:grid-cols-1 tb:grid-cols-2 sm:grid-cols-3  md:grid-cols-4 lg:grid-cols-5">
@@ -125,8 +133,33 @@ export const ManageProducts = () => {
                     // pageRangeDisplayed={5}
 
                     />
-                </div>
+                </div>:
+                <div className="p-2 w-full "
+                    sx={{
+                        
+                        borderRadius: "13px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent:"center"
 
+                    }}>
+                    <div
+                        sx={{
+                            borderRadius: "13px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent:"center",
+                            width:"80%",
+                            border:"1px"
+
+                        }}>
+                        <p>
+                            No products found!
+                        </p>
+                    </div>
+
+
+                </div>
             }
 
         </div>

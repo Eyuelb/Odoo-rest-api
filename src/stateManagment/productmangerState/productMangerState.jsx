@@ -161,6 +161,7 @@ export const useProducts = (page, size, keyword) => {
       }))
     }
     getAllProductsRequest(page, size,keyword);
+    return () => {}
    // keyword =! ''&&totalPages > page+1&&getAllProductsRequest(page+1, size);
    
 
@@ -176,7 +177,8 @@ export const useSingleProduct = (id) => {
 
   useEffect(() => {
     getOneProductsRequest(id);
-  }, [getOneProductsRequest, id]);
+    return () => {}
+  }, []);
 
   return singleproduct;
 }

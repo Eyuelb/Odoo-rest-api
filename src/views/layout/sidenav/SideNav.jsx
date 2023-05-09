@@ -100,6 +100,7 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                                                         borderTopRightRadius: "3px",
                                                                         borderRadius: "10px",
                                                                         bg: isActive && 'navHover',
+                                                                        fontWeight:"500",
                                                                         color: isActive && 'navIconHover',
                                                                         '&:hover': {
                                                                             bg: 'navHover',

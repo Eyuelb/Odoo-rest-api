@@ -22,12 +22,22 @@ export const DirectOrder = () => {
         {
           key: 'orderStatus', headerTitle: 'Order Status', action: []
           , customTextReplacment: {
-            "pending": "Active",
-            "deleted": "Suspended"
+            "pending": "Pending",
+            "deleted": "Closed"
           },
-          customTextColor: {
-            "pending": "rgb(187 247 208 /1)",
-            "deleted": "rgb(254 215 170 /1)"
+
+          customTextHolderColor: {
+            "pending": "#03a503",
+            "deleted": "#ff2d55"
+          },
+          customStyle: {
+            "color": "#fff",
+            "borderRadius":"4px",
+            "display":"flex",
+            "alignItems":"center",
+            "justifyContent":"center",
+            "padding":"1px",
+            "width":"100px",
           }
         },
         {
@@ -74,7 +84,7 @@ export const DirectOrder = () => {
         },
         { for: 'th', class: 'text-left py-2 px-4 tracking-wider' },
         { for: 'tbody', class: '' },
-        { for: 'td', class: 'text-left py-2 px-4 boarder whitespace-no-wrap',
+        { for: 'td', class: 'text-left py-2 px-4 boarder  whitespace-no-wrap',
         sx:{
           borderBottomWidth:"1px"
         }
@@ -87,7 +97,7 @@ export const DirectOrder = () => {
   ]
 
   return (
-    <div>
+    <div className=' overflow-hidden'>
       <Table TableConfiguration={TableConfiguration} data={orders.length > 0 && Array.isArray(orders)?orders:[]} tableLoading={orders.length > 0 && Array.isArray(orders)?isGetAllOrderLoading:true} />
     </div>
   )
