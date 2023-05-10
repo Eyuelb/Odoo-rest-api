@@ -8,7 +8,7 @@ import { MessageHandler,ErrorBoundary } from "@components"
 
 
 function App() {
-  const { isAuthenticated,user } = userMangerState();
+  const { isAuthenticated,user,userTest } = userMangerState();
 
 const showContentMenus = (routesList,userAccessLevel) => {
   var allpages = [];         
@@ -23,14 +23,14 @@ const showContentMenus = (routesList,userAccessLevel) => {
  
   return <Routes>{allpages}</Routes>;
 }
-
+//console.log(JSON.parse(user.assignedRoles))
   return (
    
     <Router>
       <Fragment>
       <ErrorBoundary>
         <MessageHandler/>
-        {isAuthenticated?<MainPage chilrenpages={showContentMenus(CoreRoutes, user.roles)} />:<LoginPage/>}
+        {isAuthenticated?<MainPage chilrenpages={showContentMenus(CoreRoutes, userTest.assignedRoles)} />:<LoginPage/>}
       </ErrorBoundary>
       </Fragment>
     </Router>

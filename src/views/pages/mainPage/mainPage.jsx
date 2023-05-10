@@ -4,11 +4,12 @@ import React from "react";
 import { IconButton, Divider, Spinner, Flex } from 'theme-ui';
 import { HeadNav, Sidenav } from '@views'
 import { CoreRoutes } from "@routes";
-import { useOpenSidenav,useOpenMiniSidenav,useHeadnavStick,useUser } from '@stateManagment'
+import { useOpenSidenav,useOpenMiniSidenav,useHeadnavStick,useUser,useUserTest } from '@stateManagment'
 
 
 export const MainPage = ({ chilrenpages }) => {
     const user = useUser();
+    const userTest = useUserTest()
     const openSidenav = useOpenSidenav();
     const openMiniSidenav  = useOpenMiniSidenav();
     const headnavStick  = useHeadnavStick();
@@ -29,7 +30,7 @@ export const MainPage = ({ chilrenpages }) => {
             }}
             
             >
-                {openSidenav && <Sidenav routes={CoreRoutes} brandImg='/images/Che_Logo_html.png' userAccessLevel={user.roles} />}
+                {openSidenav && <Sidenav routes={CoreRoutes} brandImg='/images/Che_Logo_html.png' userAccessLevel={userTest.assignedRoles} />}
             </aside>
 
 

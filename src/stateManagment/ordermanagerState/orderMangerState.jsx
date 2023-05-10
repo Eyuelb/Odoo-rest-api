@@ -8,7 +8,7 @@ import {
   getUserInfofindByIdService,
   updateOrderStatusService 
 } from "@services";
-import { toast,ToastContainer } from 'react-toastify'; // then this
+import { toast } from 'react-toastify'; // then this
 
 export const orderManagerStore = create((set, get) => ({
   orders: '',

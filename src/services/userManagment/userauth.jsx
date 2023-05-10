@@ -16,18 +16,17 @@ export const registerService = async (fullName,username,gender,phoneNo,email,pas
 };
 
 export const loginService = async (userName, loginCode) => {
-
-    try{
-      const response = await authapi.post("/login", {
-        userName,
-        loginCode
-      })
-      return response
-    }
-    catch(error){
-      return error;
-    }
+  try {
+    const response = await authapi.post("/login", {
+      userName,
+      loginCode
+    });
+    return response.data; // Assuming the data you need is within the response's data property
+  } catch (error) {
+    throw error; // Re-throw the error to be caught by the caller of loginService
+  }
 };
+
 
 
 export const logout = async (id) => {

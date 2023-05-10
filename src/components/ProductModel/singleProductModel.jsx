@@ -177,21 +177,21 @@ export const SingleProduct = ({ props, addToCart, action }) => {
                         <div className="flex p-4 pb-2 border-t"></div>
                         <div className="flex space-x-2 text-sm font-medium justify-center">
 
-                            <button className="transition ease-in duration-300 inline-flex items-centertext-sm font-medium mb-2 md:mb-0 px-5 py-2 hover:shadow-lg tracking-wider  "
+                            <button className="inline-flex items-centertext-sm font-medium mb-2 md:mb-0 px-5 py-2 hover:shadow-lg tracking-wider  "
                                 sx={{
-                                    bg: visibility == null ? "red" : "green",
+                                    bg: visibility == null ? "red" : visibility == "hide"? "green":"red",
                                     color: "#e0e0e0",
                                     borderRadius: "10px",
                                     '&:hover': {
-                                        background: visibility == null ? "#a70000" : "#005200",
-
+                                        background: visibility == null ? "#a70000" : visibility == "hide"? "#005200":"#a70000",
                                     }
                                 }}
                                 onClick={(() => action(id))}
 
 
                             >
-                                <span>{visibility == null ? "Hide" : "Visible"}</span>                            </button>
+                                <span>{visibility == null ? "Hide" : visibility == "hide"? "Visible":"Hide"}</span>
+                                                       </button>
                         </div>
 
                     </div>

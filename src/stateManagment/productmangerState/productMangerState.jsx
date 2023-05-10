@@ -1,4 +1,5 @@
 import React,{useEffect,useState} from 'react';
+import { toast } from 'react-toastify'; // then this
 import { create } from 'zustand';
 import {produce} from "immer";
 import { getAllProductService,getOneProductService,changeProductVisibilityService } from "@services";
@@ -24,7 +25,8 @@ export const productManagerStore = create((set, get) => ({
   isGetAllProductLoading: false,
   isGetOneProductLoading: false,
   isChangeProductvisibilityLoading: false,
-  getAllProductsRequest: async (page, size,keyword) => {
+  refresh:false,
+  getAllProductsRequest: async (page, size,keyword,refresh) => {
     //console.log(keyword)
     set(
       produce((draft) => {
@@ -35,7 +37,7 @@ export const productManagerStore = create((set, get) => ({
       // Check if the products list has already been fetched for this page
 
       const productIndex = get().productContainer.findIndex((product) => product.productsId === page);
-      if (productIndex !== -1 && keyword == '') {
+      if (productIndex !== -1 && keyword == '' && refresh == false) {
         // Products list already exists, use it
         set(
           produce((draft) => {
@@ -105,19 +107,20 @@ export const productManagerStore = create((set, get) => ({
   },
   changeProductVisibilityRequest: async (id) => {
     set(produce((draft) => {
-      draft.isGetOneProductLoading = true;
+      draft.isChangeProductvisibilityLoading = true;
     }));
     try {
       const response = await changeProductVisibilityService(id);
       set(produce((draft) => {
-        draft.isGetOneProductLoading = false;
+        draft.isChangeProductvisibilityLoading = false;
         draft.changeProductvisibilitySuccessMessage = "Product visibility changed successfully.";
         draft.changeProductvisibilitySuccess = true;
+        draft.refresh = true;
       }));
     } catch (error) {
       //console.log(error);
       set(produce((draft) => {
-        draft.isGetOneProductLoading = false;
+        draft.isChangeProductvisibilityLoading = false;
         draft.changeProductvisibilityErrorMessage = "Failed to change product visibility.";
         draft.changeProductvisibilityError = true;
       }));
@@ -125,7 +128,6 @@ export const productManagerStore = create((set, get) => ({
   },
   productManagerStateCleaner: () => {
     set(produce((draft) => {
-      draft.getAllProductSuccessMessage = "";
       draft.getAllProductSuccess = false;
       draft.getAllProductErrorMessage = "";
       draft.getAllProductError = false;
@@ -133,9 +135,14 @@ export const productManagerStore = create((set, get) => ({
       draft.getOneProductSuccess = false;
       draft.getOneProductErrorMessage = "";
       draft.getOneProductError = false;
+      draft.changeProductvisibilitySuccessMessage = "";
+      draft.changeProductvisibilitySuccess = false;
+      draft.changeProductvisibilityErrorMessage = "";
+      draft.changeProductvisibilityError = false;
       draft.isGetAllProductLoading = false;
       draft.isGetOneProductLoading = false;
-
+      draft.isChangeProductvisibilityLoading = false;
+      draft.refresh = false;
     }))
   },
 })) 
@@ -148,27 +155,29 @@ export const useProducts = (page, size, keyword) => {
   const totalPages = productManagerStore((state) => state.totalPages);
   const totalItems = productManagerStore((state) => state.totalItems);
   const isGetAllProductLoading = productManagerStore((state) => state.isGetAllProductLoading);
-  const getAllProductsRequest = productManagerStore(
-    (state) => state.getAllProductsRequest
-  );
-
-
+  const refresh = productManagerStore((state) => state.refresh);
+  const getAllProductsRequest = productManagerStore((state) => state.getAllProductsRequest);
+  const productManagerStateCleaner = productManagerStore((state) => state.productManagerStateCleaner);
   useEffect(() => {
-    if(keyword != ''){
-      productManagerStore.setState((state)=>({
+    if (keyword !== '') {
+      productManagerStore.setState((state) => ({
         ...state,
-        products : []
-      }))
+        products: []
+      }));
     }
-    getAllProductsRequest(page, size,keyword);
-    return () => {}
-   // keyword =! ''&&totalPages > page+1&&getAllProductsRequest(page+1, size);
-   
 
-  }, [getAllProductsRequest, page, size,keyword]);
+    if (refresh) {
+      productManagerStateCleaner();
+    }
+    getAllProductsRequest(page, size, keyword,refresh);
 
-  return { products, totalPages, totalItems ,isGetAllProductLoading };
+  }, [page, size, keyword, refresh]);
+
+
+
+  return { products, totalPages, totalItems, isGetAllProductLoading };
 };
+
 
 // Custom hook to access the singleproduct state
 export const useSingleProduct = (id) => {
@@ -184,4 +193,37 @@ export const useSingleProduct = (id) => {
 }
 
 
-export const useChangeProductVisibilityRequest = () => productManagerStore(state => state.changeProductVisibilityRequest);
+export const useChangeProductVisibilityRequest = () => {
+
+  const changeProductVisibilityRequest = productManagerStore(state => state.changeProductVisibilityRequest);
+  const changeProductvisibilitySuccess = productManagerStore((state) => state.changeProductvisibilitySuccess);
+  const changeProductvisibilitySuccessMessage = productManagerStore((state) => state.changeProductvisibilitySuccessMessage);
+  const changeProductvisibilityError = productManagerStore((state) => state.changeProductvisibilityError);
+  const changeProductvisibilityErrorMessage = productManagerStore((state) => state.changeProductvisibilityErrorMessage);
+  const productManagerStateCleaner = productManagerStore((state) => state.productManagerStateCleaner);
+
+  useEffect(() => {
+
+    if (changeProductvisibilitySuccess) {
+			toast.success(changeProductvisibilitySuccessMessage, {
+				// Set to 5sec
+				position: toast.POSITION.BOTTOM_RIGHT, autoClose: 5000
+			})
+      productManagerStateCleaner()
+		}
+    if (changeProductvisibilityError) {
+			toast.error(changeProductvisibilityErrorMessage, {
+				// Set to 5sec
+				position: toast.POSITION.BOTTOM_RIGHT, autoClose: 5000
+			})
+      productManagerStateCleaner()
+		}
+
+    return () => {
+
+    }
+
+  }, [changeProductvisibilitySuccess,changeProductvisibilityError]);
+  return changeProductVisibilityRequest;
+
+}

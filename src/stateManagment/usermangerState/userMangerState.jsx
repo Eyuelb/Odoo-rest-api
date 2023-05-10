@@ -7,7 +7,10 @@ export const userMangerState = create(
   persist(
     (set,get) => ({
       user: {
-        roles: ['guest']
+        assignedRoles: ['guest']
+      },
+      userTest: {
+        assignedRoles: ['guest']
       },
       loginErrorMessage: "",
       loginError: false,
@@ -31,21 +34,22 @@ export const userMangerState = create(
  
         try {
           const response = await loginService(phonenumber, password);
-          console.log(response)
+        //  console.log(response)
           set(produce((draft) => {
             draft.isLoading = false;
             draft.isAuthenticated = true;
             draft.loginSuccessMessage = "Login Successfully";
             draft.loginSuccess = true;
             draft.user = response;
+
           }));
          window.location.href="/"
         } catch (error) {
-          console.log(error);
+         // console.log(error);
           set(produce((draft) => {
             draft.isLoading = false;
             draft.isAuthenticated = false;
-            draft.loginErrorMessage = error.response.data.message || error.response.data;
+            draft.loginErrorMessage = "Incorrect username or password.";
             draft.loginError = true;
           }));
         }
@@ -53,7 +57,7 @@ export const userMangerState = create(
       logoutReuest: () => {
         set(produce((draft) => {
           draft.user = {
-            roles: ['guest']
+            assignedRoles: ['guest']
           };
           draft.loginErrorMessage = "";
           draft.loginError = false;
@@ -111,7 +115,7 @@ export const userMangerState = create(
       //  console.log(error.response.data.message);
         set(produce((draft) => {
           draft.user = {
-            roles: ['guest']
+            assignedRoles: ['guest']
           };
            draft.loginErrorMessage = error.response.data.message;
            draft.loginError = true;
@@ -152,6 +156,7 @@ export const setTokenToState = async() =>(await userMangerState.getState().token
 
 
 export const useUser = () => userMangerState((state) => state.user);
+export const useUserTest = () => userMangerState((state) => state.userTest);
 export const loginRequest = () => userMangerState((state) => state.loginRequest);
 export const logoutRequest = () => userMangerState((state) => state.logoutRequest);
 export const tokenRefreshRequest = () => userMangerState((state) => state.tokenRefreshRequest);
