@@ -4,7 +4,7 @@ import { useOrders } from '@stateManagment';
 import { EyeIcon, PencilIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from 'react-router-dom';
 
-export const DirectOrder = () => {
+export const PrescriptionOrder = () => {
   const navigate = useNavigate();
   const { orders, isGetAllOrderLoading } = useOrders();
 
@@ -22,17 +22,13 @@ export const DirectOrder = () => {
         {
           key: 'orderStatus', headerTitle: 'Order Status', action: []
           , customTextReplacment: {
-            "pending": "New",
-            "Inprogress": "Inprogress",
-            "completed":"Completed",
-            "closed": "Suspended"
+            "pending": "Pending",
+            "deleted": "Closed"
           },
 
           customTextHolderColor: {
             "pending": "#03a503",
-            "Inprogress": "#0052ff",
-            "closed": "#ff2d55",
-            "completed":"#038ba5",
+            "deleted": "#ff2d55"
           },
           customStyle: {
             "color": "#fff",

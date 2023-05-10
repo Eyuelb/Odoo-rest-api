@@ -9,6 +9,7 @@ import {
   updateOrderStatusService 
 } from "@services";
 import { toast } from 'react-toastify'; // then this
+import { useNavigate } from 'react-router-dom';
 
 export const orderManagerStore = create((set, get) => ({
   orders: '',
@@ -203,27 +204,47 @@ export const orderManagerStore = create((set, get) => ({
       }));
     }
   },
-  updateOrderStatusRequest: async (id,status) => {
-    set( ((draft) => {
-      draft.isUpdateOrderStatusLoading = true;
-    }));
+  updateOrderStatusRequest: async (id, status) => {
+    
+    set(
+      produce((draft) => {
+        draft.isUpdateOrderStatusLoading = true;
+      })
+    );
     try {
-      const response = await updateOrderStatusService(id,status);
-      set(produce((draft) => {
-        draft.isUpdateOrderStatusLoading = false;
-        draft.userorders = response.data;
-        draft.updateOrderStatusSuccessMessage = "Order update successfully.";
-        draft.updateOrderStatusSuccess = true;
-      }));
+      const response = await updateOrderStatusService(id, status);
+      if (!!response.data.error || response.status != 200)
+      {
+        set(
+          produce((draft) => {
+            draft.isUpdateOrderStatusLoading = false;
+            draft.updateOrderStatusErrorMessage = "Failed to update order.";
+            draft.updateOrderStatusError = true;
+          })
+        );
+      }
+      else{
+        console.log(response.data);
+        set(
+          produce((draft) => {
+            draft.isUpdateOrderStatusLoading = false;
+            draft.updateOrderStatusSuccessMessage = "Order updated successfully.";
+            draft.updateOrderStatusSuccess = true;
+          })
+        );
+      }    
     } catch (error) {
-      //console.log(error);
-      set(produce((draft) => {
-        draft.isUpdateOrderStatusLoading = false;
-        draft.updateOrderStatusErrorMessage = "Failed to update order.";
-        draft.updateOrderStatusError = true;
-      }));
+      console.log(error);
+      set(
+        produce((draft) => {
+          draft.isUpdateOrderStatusLoading = false;
+          draft.updateOrderStatusErrorMessage = "Failed to update order.";
+          draft.updateOrderStatusError = true;
+        })
+      );
     }
   },
+  
   orderManagerStateCleaner: () => {
 
     set(produce((draft) => {
@@ -367,17 +388,50 @@ export const useSingleOrder = (id) => {
 //   return {userorders,isGetUserOrderLoading};
 // }
 
-export const useUpdateOrderStatus = () => {
+export const useUpdateOrderStatus = (id,status) => {
   const isUpdateOrderStatusLoading = orderManagerStore((state) => state.isUpdateOrderStatusLoading);
-  const updateOrderStatusRequest = orderManagerStore(
-    (state) => state.updateOrderStatusRequest
-  );
-
+  const updateOrderStatusRequest = orderManagerStore((state) => state.updateOrderStatusRequest);
+  const updateOrderStatusSuccess = orderManagerStore((state) => state.updateOrderStatusSuccess);
+  const updateOrderStatusSuccessMessage = orderManagerStore((state) => state.updateOrderStatusSuccessMessage);
+  const updateOrderStatusError = orderManagerStore((state) => state.updateOrderStatusError);
+  const updateOrderStatusErrorMessage = orderManagerStore((state) => state.updateOrderStatusErrorMessage);
+  const orderManagerStateCleaner = orderManagerStore((state) => state.orderManagerStateCleaner);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    updateOrderStatusRequest();   
+    if(status == 'completed' || status == 'closed'){
+      updateOrderStatusRequest(id,status);   
+    }
+    if(status == 'pending'){
+      updateOrderStatusRequest(id,'Inprogress');
+    }
+     console.log(status)
+  }, [status,updateOrderStatusRequest]);
+  useEffect(() => {
+    if (updateOrderStatusSuccess) {
+      if(status == 'completed' || status == 'closed'){
+        toast.success(updateOrderStatusSuccessMessage, {
+          // Set to 5sec
+          position: toast.POSITION.BOTTOM_RIGHT, autoClose: 5000
+        })
+        navigate('/direct-orders');
+      }
+      orderManagerStateCleaner()
+		}
+     if (updateOrderStatusError) {
+      if(status == 'completed' || status == 'closed'){
+        toast.error(updateOrderStatusErrorMessage, {
+          // Set to 5sec
+          position: toast.POSITION.BOTTOM_RIGHT, autoClose: 5000
+        })
+      }
 
-  }, [updateOrderStatusRequest]);
+      orderManagerStateCleaner()
+		}
+    return () => {
 
+    }
+
+  }, [updateOrderStatusSuccess,updateOrderStatusError]);
   return { isUpdateOrderStatusLoading };
 };

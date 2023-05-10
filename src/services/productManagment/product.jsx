@@ -50,10 +50,11 @@ export const getMostSoldProductService = async (page, size) => {
 export const changeProductVisibilityService = async (id) => {
   try{
     const response = await productapi.put(`/visibility?id=${encodeURIComponent(id)}`)
-    return response
+  //  console.log(response.data)
+    return response.data; // Assuming the data you need is within the response's data property
+  } catch (error) {
+    throw error; // Re-throw the error to be caught by the caller of loginService
   }
-  catch(error){
-    return error.response;
-  }
+};
 
- };
+ 

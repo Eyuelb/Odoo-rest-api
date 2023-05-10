@@ -85,7 +85,7 @@ export const Sidenav = ({ brandImg, brandName, routes, userAccessLevel }) => {
                                             {pages.map(({ icon, name, path, sidenavlinked, pageAccessPrivilege }, key) => (
                                                 (sidenavlinked === true) && userAccessLevel.some(level => pageAccessPrivilege.includes(level)) ?
                                                     <li key={key} className="w-full">
-                                                        <NavLink to={path}>
+                                                        <NavLink to={path} id={"id"+path}>
                                                             {({ isActive }) => (
                                                                 <div
                                                                     sx={{
