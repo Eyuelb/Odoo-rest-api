@@ -37,12 +37,9 @@ export const userMangerState = create(
             draft.isAuthenticated = true;
             draft.loginSuccessMessage = "Login Successfully";
             draft.loginSuccess = true;
-            // draft.user = response;
-            draft.user = {
-              roles: ['guest']
-            };
+            draft.user = response;
           }));
-        //  window.location.href="/"
+         window.location.href="/"
         } catch (error) {
           console.log(error);
           set(produce((draft) => {
